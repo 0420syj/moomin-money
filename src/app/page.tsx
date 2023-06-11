@@ -1,10 +1,26 @@
-import Image from 'next/image';
+'use client';
 
-export default function Home() {
+// src/app/page.tsx
+import { useEffect, useState } from 'react';
+
+export default function Page() {
+	const [data, setData] = useState(null);
+
+	useEffect(() => {
+		fetch('/api/getdata')
+			.then(response => response.json())
+			.then(data => setData(data))
+			.catch(error => console.error(error));
+	}, []);
+
 	return (
-		<>
-			<h1>Next.js + Storybook</h1>
-			<Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-		</>
+		<div>
+			<h1>Data from API:</h1>
+			{data ? (
+				<pre>{JSON.stringify(data, null, 2)}</pre>
+			) : (
+				<p>Loading...</p>
+			)}
+		</div>
 	);
 }
