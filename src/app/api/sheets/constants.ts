@@ -1,0 +1,1 @@
+export const MONEYBOOK_DATA_SHEET_RANGE = 'B15:G';
