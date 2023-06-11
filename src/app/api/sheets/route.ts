@@ -13,10 +13,6 @@ export async function GET() {
 				MONEYBOOK_DATA_SHEET_RANGE) as string,
 		);
 
-		for (let i = 0; i < 3; i++) {
-			console.log(values[i]);
-		}
-
 		return NextResponse.json({ values });
 	} catch (error) {
 		console.error(error);
