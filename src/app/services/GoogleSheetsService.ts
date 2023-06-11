@@ -1,9 +1,10 @@
 import { google } from 'googleapis';
 import { GoogleAuth } from 'googleapis-common';
+import { formatDate } from '@/utils/date';
 
 export class GoogleSheetsService {
 	private auth: GoogleAuth;
-	private sheets: any;
+	private sheets;
 
 	constructor() {
 		this.auth = new google.auth.GoogleAuth({
@@ -26,8 +27,10 @@ export class GoogleSheetsService {
 
 	async getSheetValues(spreadsheetId: string, range: string) {
 		const response = await this.sheets.spreadsheets.values.get({
-			spreadsheetId,
-			range,
+			spreadsheetId: spreadsheetId,
+			range: range,
+			majorDimension: 'ROWS',
+			valueRenderOption: 'UNFORMATTED_VALUE',
 		});
 
 		return response.data.values as string[][];
