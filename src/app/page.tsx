@@ -1,13 +1,12 @@
 'use client';
 
-// src/app/page.tsx
 import { useEffect, useState } from 'react';
 
 export default function Page() {
 	const [data, setData] = useState(null);
 
 	useEffect(() => {
-		fetch('/api/getdata')
+		fetch('/api/sheets/와와 FO의 사본')
 			.then(response => response.json())
 			.then(data => setData(data))
 			.catch(error => console.error(error));
