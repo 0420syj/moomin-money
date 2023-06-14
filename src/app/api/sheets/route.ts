@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { MONEYBOOK_DATA_SHEET_RANGE } from './constants';
-import { GoogleSheetsService } from '@/app/services/GoogleSheetsService';
+import { GoogleSheetsService } from '@/services/GoogleSheetsService';
 
 const googleSheetsService = new GoogleSheetsService();
 
