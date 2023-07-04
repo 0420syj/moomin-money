@@ -1,12 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
 	const [selected, setSelected] = useState('wanny');
 
+	// console log when selected changes
+	useEffect(() => {
+		console.log(selected);
+	}, [selected]);
+
+	const handleSubmit = (event: {
+		preventDefault: () => void;
+		target: HTMLFormElement | undefined;
+	}) => {
+		event.preventDefault();
+		const dataList = event.target;
+
+		for (let i = 0; i < dataList.length; i++) {
+			console.log('innerHTML: ' + dataList[i].innerHTML);
+			console.log('value: ' + dataList[i].value);
+		}
+	};
+
 	return (
-		<form className="space-y-6">
+		<form className="space-y-6" onSubmit={handleSubmit}>
 			<div className="flex" role="group">
 				<button
 					type="button"
@@ -69,12 +87,57 @@ export default function Home() {
 					id="price"
 					type="text"
 					inputMode="numeric"
-					pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-					data-type="currency"
+					// pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
+					// data-type="currency"
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
 			</div>
-			{/* Add your categories and payment methods here */}
+			<div>
+				<label
+					htmlFor="category"
+					className="block text-sm font-medium text-gray-700"
+				>
+					카테고리
+				</label>
+				<select
+					id="category"
+					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+				>
+					<option>🏠 주거</option>
+					<option>🧺 생활</option>
+					<option>🍎 식재료</option>
+					<option>🍔 배달</option>
+					<option>🍽️ 외식</option>
+					<option>🍷 와인/술</option>
+					<option>🏪 편의점</option>
+					<option>🎠 문화/여가</option>
+					<option>😺 냐옹</option>
+					<option>🚗 교통</option>
+					<option>✈️ 여행</option>
+					<option>👔 옷/미용</option>
+					<option>🏥 건강</option>
+					<option>📚 자기개발</option>
+					<option>❤️ 선물</option>
+					<option>🪕 기타</option>
+				</select>
+			</div>
+			<div>
+				<label
+					htmlFor="payment"
+					className="block text-sm font-medium text-gray-700"
+				>
+					결제수단
+				</label>
+				<select
+					id="payment"
+					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+				>
+					<option>💳 신용카드</option>
+					<option>💵 현금</option>
+					<option>💲 제로페이</option>
+					<option>➗ 할부</option>
+				</select>
+			</div>
 			<div>
 				<label
 					htmlFor="note"

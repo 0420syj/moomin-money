@@ -35,7 +35,11 @@ export class GoogleSheetsService {
 		return response.data.values as string[][];
 	}
 
-	async postSheetValues(spreadsheetId: string, range: string) {
+	async postSheetValues(
+		spreadsheetId: string,
+		range: string,
+		values: any[][],
+	) {
 		const request = {
 			spreadsheetId: spreadsheetId,
 			range: range,
@@ -47,16 +51,7 @@ export class GoogleSheetsService {
 			requestBody: {
 				majorDimension: 'ROWS',
 				range: '',
-				values: [
-					[
-						44652,
-						'드가자!',
-						899999,
-						'🏠 주거',
-						'💵 현금',
-						'Next.js 테스트',
-					],
-				],
+				values: values,
 			},
 		};
 
