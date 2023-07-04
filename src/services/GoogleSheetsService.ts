@@ -1,6 +1,5 @@
 import { google } from 'googleapis';
 import { GoogleAuth } from 'googleapis-common';
-import { formatDate } from '@/utils/date';
 
 export class GoogleSheetsService {
 	private auth: GoogleAuth;
@@ -34,5 +33,40 @@ export class GoogleSheetsService {
 		});
 
 		return response.data.values as string[][];
+	}
+
+	async postSheetValues(spreadsheetId: string, range: string) {
+		const request = {
+			spreadsheetId: spreadsheetId,
+			range: range,
+			includeValuesInResponse: true,
+			insertDataOption: 'INSERT_ROWS',
+			responseDateTimeRenderOption: 'FORMATTED_STRING',
+			responseValueRenderOption: 'FORMATTED_VALUE',
+			valueInputOption: 'RAW',
+			requestBody: {
+				majorDimension: 'ROWS',
+				range: '',
+				values: [
+					[
+						44652,
+						'드가자!',
+						899999,
+						'🏠 주거',
+						'💵 현금',
+						'Next.js 테스트',
+					],
+				],
+			},
+		};
+
+		try {
+			const response = await this.sheets.spreadsheets.values.append(
+				request,
+			);
+			return response.data.updates?.updatedData?.values;
+		} catch (err) {
+			console.error(err);
+		}
 	}
 }
