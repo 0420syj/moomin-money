@@ -1,13 +1,20 @@
 'use client';
 
-import { useStore } from '@/hooks/InputForm';
 import { useEffect, useState } from 'react';
+import useFormStore from '@/hooks/useFormStore';
 
 export default function Home() {
 	const [selected, setSelected] = useState('wanny');
 
-	const input = useStore(state => state.input);
-	console.log('input: ' + input[0]);
+	const { date, setDate, getDate } = useFormStore(state => ({
+		date: state.date,
+		setDate: state.actions.setDate,
+		getDate: state.actions.getDate,
+	}));
+
+	useEffect(() => {
+		console.log('date: ' + getDate());
+	}, [date]);
 
 	const handleSubmit = (event: {
 		preventDefault: () => void;
@@ -61,6 +68,8 @@ export default function Home() {
 				<input
 					id="date"
 					type="date"
+					value={date.toString()}
+					onChange={e => setDate(e.target.value)}
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
 			</div>
