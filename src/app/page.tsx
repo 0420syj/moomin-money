@@ -1,25 +1,26 @@
 'use client';
 
+import { useStore } from '@/hooks/InputForm';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
 	const [selected, setSelected] = useState('wanny');
 
-	// console log when selected changes
-	useEffect(() => {
-		console.log(selected);
-	}, [selected]);
+	const input = useStore(state => state.input);
+	console.log('input: ' + input[0]);
 
 	const handleSubmit = (event: {
 		preventDefault: () => void;
 		target: HTMLFormElement | undefined;
 	}) => {
 		event.preventDefault();
-		const dataList = event.target;
+		const dataList = event.target as HTMLFormElement;
 
 		for (let i = 0; i < dataList.length; i++) {
 			console.log('innerHTML: ' + dataList[i].innerHTML);
-			console.log('value: ' + dataList[i].value);
+			if (dataList[i] instanceof HTMLInputElement) {
+				console.log('value: ' + dataList[i].value);
+			}
 		}
 	};
 
