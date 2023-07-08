@@ -1,25 +1,33 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import useFormStore from '@/hooks/useFormStore';
 
 export default function Home() {
 	const [selected, setSelected] = useState('wanny');
 
-	// console log when selected changes
+	const { date, setDate, getDate } = useFormStore(state => ({
+		date: state.date,
+		setDate: state.actions.setDate,
+		getDate: state.actions.getDate,
+	}));
+
 	useEffect(() => {
-		console.log(selected);
-	}, [selected]);
+		console.log('date: ' + getDate());
+	}, [date]);
 
 	const handleSubmit = (event: {
 		preventDefault: () => void;
 		target: HTMLFormElement | undefined;
 	}) => {
 		event.preventDefault();
-		const dataList = event.target;
+		const dataList = event.target as HTMLFormElement;
 
 		for (let i = 0; i < dataList.length; i++) {
 			console.log('innerHTML: ' + dataList[i].innerHTML);
-			console.log('value: ' + dataList[i].value);
+			if (dataList[i] instanceof HTMLInputElement) {
+				console.log('value: ' + dataList[i].value);
+			}
 		}
 	};
 
@@ -60,6 +68,8 @@ export default function Home() {
 				<input
 					id="date"
 					type="date"
+					value={date.toString()}
+					onChange={e => setDate(e.target.value)}
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
 			</div>
