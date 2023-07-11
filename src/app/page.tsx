@@ -36,10 +36,10 @@ export default function Home() {
 			<div className="flex" role="group">
 				<button
 					type="button"
-					className={`flex-1 px-4 py-2 text-sm font-medium text-gray-900 border-t-2 border-b-2 border-l-2 border-r border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white ${
+					className={`flex-1 px-4 py-2 text-sm font-medium border-t-2 border-b-2 border-l-2 border-r border-gray-200 rounded-l-lg ${
 						selected === 'wanny'
 							? 'bg-blue-500 text-white'
-							: 'bg-white'
+							: 'bg-white text-black hover:bg-gray-100'
 					}`}
 					onClick={() => setSelected('wanny')}
 				>
@@ -47,10 +47,10 @@ export default function Home() {
 				</button>
 				<button
 					type="button"
-					className={`flex-1 px-4 py-2 text-sm font-medium text-gray-900 border-t-2 border-b-2 border-l border-r-2 border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white ${
+					className={`flex-1 px-4 py-2 text-sm font-medium border-t-2 border-b-2 border-l border-r-2 border-gray-200 rounded-r-lg ${
 						selected === 'moomin'
 							? 'bg-blue-500 text-white'
-							: 'bg-white'
+							: 'bg-white text-black hover:bg-gray-100'
 					}`}
 					onClick={() => setSelected('moomin')}
 				>
