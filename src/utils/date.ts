@@ -42,3 +42,16 @@ export const formatDate = (serial: number) => {
 
 	return date;
 };
+
+export const getSerial = (date: Date) => {
+	const utcDays = getUtcDays(date.getTime() / MS_PER_DAY);
+	const utcValue = getUtcValue(utcDays);
+	const dateInfo = getDateInfo(utcValue);
+
+	const totalSeconds =
+		date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds();
+
+	const fractionalDay = totalSeconds / SECONDS_PER_DAY;
+
+	return dateInfo.getTime() / MS_PER_DAY + fractionalDay;
+};

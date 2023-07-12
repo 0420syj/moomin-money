@@ -1,58 +1,35 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import useFormStore from '@/hooks/useFormStore';
+import { formatDate, getSerial } from '@/utils/date';
 
 export default function Home() {
-	const [selected, setSelected] = useState('wanny');
-
-	const { date, setDate, getDate } = useFormStore(state => ({
-		date: state.date,
-		setDate: state.actions.setDate,
-		getDate: state.actions.getDate,
-	}));
-
-	useEffect(() => {
-		console.log('date: ' + getDate());
-	}, [date, getDate]);
-
-	const handleSubmit = (event: {
-		preventDefault: () => void;
-		target: HTMLFormElement | undefined;
-	}) => {
-		event.preventDefault();
-		const dataList = event.target as HTMLFormElement;
-
-		for (let i = 0; i < dataList.length; i++) {
-			console.log('innerHTML: ' + dataList[i].innerHTML);
-			if (dataList[i] instanceof HTMLInputElement) {
-				console.log('value: ' + dataList[i].value);
-			}
-		}
-	};
+	const formData = useFormStore();
 
 	return (
-		<form className="space-y-6" onSubmit={handleSubmit}>
+		<div className="space-y-6">
 			<div className="flex" role="group">
 				<button
 					type="button"
+					value="wanny"
 					className={`flex-1 px-4 py-2 text-sm font-medium border-t-2 border-b-2 border-l-2 border-r border-gray-200 rounded-l-lg ${
-						selected === 'wanny'
+						formData.name === 'wanny'
 							? 'bg-blue-500 text-white'
 							: 'bg-white text-black hover:bg-gray-100'
 					}`}
-					onClick={() => setSelected('wanny')}
+					onClick={() => formData.actions.setName('wanny')}
 				>
 					🐶 빵떡
 				</button>
 				<button
 					type="button"
+					value="moomin"
 					className={`flex-1 px-4 py-2 text-sm font-medium border-t-2 border-b-2 border-l border-r-2 border-gray-200 rounded-r-lg ${
-						selected === 'moomin'
+						formData.name === 'moomin'
 							? 'bg-blue-500 text-white'
 							: 'bg-white text-black hover:bg-gray-100'
 					}`}
-					onClick={() => setSelected('moomin')}
+					onClick={() => formData.actions.setName('moomin')}
 				>
 					🐻‍❄️ 무민
 				</button>
@@ -68,8 +45,8 @@ export default function Home() {
 				<input
 					id="date"
 					type="date"
-					value={date.toString()}
-					onChange={e => setDate(e.target.value)}
+					value={formData.date as string}
+					onChange={e => formData.actions.setDate(e.target.value)}
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
 			</div>
@@ -83,6 +60,8 @@ export default function Home() {
 				<input
 					id="content"
 					type="text"
+					value={formData.content as string}
+					onChange={e => formData.actions.setContent(e.target.value)}
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
 			</div>
@@ -95,10 +74,10 @@ export default function Home() {
 				</label>
 				<input
 					id="price"
-					type="text"
+					type="number"
+					value={formData.price as string}
+					onChange={e => formData.actions.setPrice(e.target.value)}
 					inputMode="numeric"
-					// pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-					// data-type="currency"
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
 			</div>
@@ -111,6 +90,8 @@ export default function Home() {
 				</label>
 				<select
 					id="category"
+					value={formData.category as string}
+					onChange={e => formData.actions.setCategory(e.target.value)}
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				>
 					<option>🏠 주거</option>
@@ -140,6 +121,8 @@ export default function Home() {
 				</label>
 				<select
 					id="payment"
+					value={formData.payment as string}
+					onChange={e => formData.actions.setPayment(e.target.value)}
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				>
 					<option>💳 신용카드</option>
@@ -158,17 +141,23 @@ export default function Home() {
 				<input
 					id="note"
 					type="text"
+					value={formData.note as string}
+					onChange={e => formData.actions.setNote(e.target.value)}
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
 			</div>
 			<div>
 				<button
-					type="submit"
+					type="button"
+					onClick={() => {
+						const { actions, ...data } = formData;
+						console.log(data);
+					}}
 					className="w-full py-2 text-white bg-blue-500 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
 				>
 					입력
 				</button>
 			</div>
-		</form>
+		</div>
 	);
 }
