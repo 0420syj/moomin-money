@@ -14,7 +14,7 @@ export default function Home() {
 
 	useEffect(() => {
 		console.log('date: ' + getDate());
-	}, [date]);
+	}, [date, getDate]);
 
 	const handleSubmit = (event: {
 		preventDefault: () => void;
