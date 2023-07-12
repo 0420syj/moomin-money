@@ -26,6 +26,16 @@ export async function POST(request: Request) {
 			(process.env.GOOGLE_SHEET_NAME +
 				'!' +
 				MONEYBOOK_DATA_SHEET_RANGE) as string,
+			[
+				[
+					44652,
+					'중개수수료',
+					660000,
+					'🏠 주거',
+					'💵 현금',
+					'바른 부동산',
+				],
+			],
 		);
 
 		return NextResponse.json(response);
