@@ -1,9 +1,10 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+export type Name = 'wanny' | 'moomin';
+
 type FormState = {
-	// 결제한 사람
-	name: String;
+	name: Name;
 	date: String;
 	content: String;
 	price: String;
@@ -13,14 +14,14 @@ type FormState = {
 };
 
 type FormAction = {
-	setName: (name: String) => void;
+	setName: (name: Name) => void;
 	setDate: (date: String) => void;
 	setContent: (content: String) => void;
 	setPrice: (price: String) => void;
 	setCategory: (category: String) => void;
 	setPayment: (payment: String) => void;
 	setNote: (note: String) => void;
-	getName: () => String;
+	getName: () => Name;
 	getDate: () => String;
 	getContent: () => String;
 	getPrice: () => String;
@@ -38,12 +39,12 @@ const useFormStore = create(
 		name: 'wanny',
 		date: new Date().toISOString().slice(0, 10),
 		content: '',
-		price: '0',
+		price: '',
 		category: '',
 		payment: '',
 		note: '',
 		actions: {
-			setName: (name: String) => set({ name }),
+			setName: (name: Name) => set({ name }),
 			setDate: (date: String) => set({ date }),
 			setContent: (content: String) => set({ content }),
 			setPrice: (price: String) => set({ price }),

@@ -1,10 +1,27 @@
 'use client';
 
-import useFormStore from '@/hooks/useFormStore';
-import { formatDate, getSerial } from '@/utils/date';
+import useFormStore, { Name } from '@/hooks/useFormStore';
 
 export default function Home() {
 	const formData = useFormStore();
+
+	const onNameButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		formData.actions.setName(event.currentTarget.value as Name);
+	};
+
+	const nameLeftButtonClass = (name: Name) =>
+		`flex-1 px-4 py-2 text-sm font-medium border-t-2 border-b-2 border-l-2 border-r border-gray-200 rounded-l-lg ${
+			formData.name === name
+				? 'bg-blue-500 text-white'
+				: 'bg-white text-black hover:bg-gray-100'
+		}`;
+
+	const nameRightButtonClass = (name: Name) =>
+		`flex-1 px-4 py-2 text-sm font-medium border-t-2 border-b-2 border-l border-r-2 border-gray-200 rounded-r-lg ${
+			formData.name === name
+				? 'bg-blue-500 text-white'
+				: 'bg-white text-black hover:bg-gray-100'
+		}`;
 
 	return (
 		<div className="space-y-6">
@@ -12,24 +29,16 @@ export default function Home() {
 				<button
 					type="button"
 					value="wanny"
-					className={`flex-1 px-4 py-2 text-sm font-medium border-t-2 border-b-2 border-l-2 border-r border-gray-200 rounded-l-lg ${
-						formData.name === 'wanny'
-							? 'bg-blue-500 text-white'
-							: 'bg-white text-black hover:bg-gray-100'
-					}`}
-					onClick={() => formData.actions.setName('wanny')}
+					className={nameLeftButtonClass('wanny')}
+					onClick={onNameButtonClick}
 				>
 					🐶 빵떡
 				</button>
 				<button
 					type="button"
 					value="moomin"
-					className={`flex-1 px-4 py-2 text-sm font-medium border-t-2 border-b-2 border-l border-r-2 border-gray-200 rounded-r-lg ${
-						formData.name === 'moomin'
-							? 'bg-blue-500 text-white'
-							: 'bg-white text-black hover:bg-gray-100'
-					}`}
-					onClick={() => formData.actions.setName('moomin')}
+					className={nameRightButtonClass('moomin')}
+					onClick={onNameButtonClick}
 				>
 					🐻‍❄️ 무민
 				</button>
