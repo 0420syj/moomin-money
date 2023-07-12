@@ -40,8 +40,8 @@ const useFormStore = create(
 		date: new Date().toISOString().slice(0, 10),
 		content: '',
 		price: '',
-		category: '',
-		payment: '',
+		category: '🏠 주거',
+		payment: '💳 신용카드',
 		note: '',
 		actions: {
 			setName: (name: Name) => set({ name }),
