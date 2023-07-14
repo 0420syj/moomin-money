@@ -5,10 +5,6 @@ import useFormStore, { Name } from '@/hooks/useFormStore';
 export default function Home() {
 	const formData = useFormStore();
 
-	const onNameButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-		formData.actions.setName(event.currentTarget.value as Name);
-	};
-
 	const nameLeftButtonClass = (name: Name) =>
 		`flex-1 px-4 py-2 text-sm font-medium border-t-2 border-b-2 border-l-2 border-r border-gray-200 rounded-l-lg ${
 			formData.name === name
@@ -23,8 +19,18 @@ export default function Home() {
 				: 'bg-white text-black hover:bg-gray-100'
 		}`;
 
+	const onNameButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		formData.actions.setName(event.currentTarget.value as Name);
+	};
+
+	const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const { actions, ...data } = formData;
+		console.log(data);
+	};
+
 	return (
-		<div className="space-y-6">
+		<form className="space-y-6" onSubmit={onSubmit}>
 			<div className="flex" role="group">
 				<button
 					type="button"
@@ -52,6 +58,7 @@ export default function Home() {
 					날짜
 				</label>
 				<input
+					required
 					id="date"
 					type="date"
 					value={formData.date as string}
@@ -67,6 +74,7 @@ export default function Home() {
 					내용
 				</label>
 				<input
+					required
 					id="content"
 					type="text"
 					value={formData.content as string}
@@ -82,6 +90,7 @@ export default function Home() {
 					금액
 				</label>
 				<input
+					required
 					id="price"
 					type="number"
 					value={formData.price as string}
@@ -148,6 +157,7 @@ export default function Home() {
 					비고
 				</label>
 				<input
+					required
 					id="note"
 					type="text"
 					value={formData.note as string}
@@ -157,16 +167,12 @@ export default function Home() {
 			</div>
 			<div>
 				<button
-					type="button"
-					onClick={() => {
-						const { actions, ...data } = formData;
-						console.log(data);
-					}}
+					type="submit"
 					className="w-full py-2 text-white bg-blue-500 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
 				>
 					입력
 				</button>
 			</div>
-		</div>
+		</form>
 	);
 }
