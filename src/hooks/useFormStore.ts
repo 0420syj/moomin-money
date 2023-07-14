@@ -5,7 +5,7 @@ import { devtools } from 'zustand/middleware';
 export type Name = 'wanny' | 'moomin';
 export type Date = Number;
 export type Content = String;
-export type Price = String;
+export type Price = Number;
 export type Category = String;
 export type Payment = String;
 export type Note = String;
@@ -49,7 +49,7 @@ const initialState: FormState = {
 	name: 'wanny',
 	date: convertToSerial(new Date().toISOString().slice(0, 10)),
 	content: '',
-	price: '',
+	price: 0,
 	category: '🏠 주거',
 	payment: '💳 신용카드',
 	note: '',

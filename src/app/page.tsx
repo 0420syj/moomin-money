@@ -106,8 +106,10 @@ export default function Home() {
 					required
 					id="price"
 					type="number"
-					value={formData.price as string}
-					onChange={e => formData.actions.setPrice(e.target.value)}
+					value={formData.price as number}
+					onChange={e =>
+						formData.actions.setPrice(Number(e.target.value))
+					}
 					inputMode="numeric"
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
