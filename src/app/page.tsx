@@ -29,6 +29,12 @@ export default function Home() {
 		console.log(data);
 	};
 
+	const onReset = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		formData.actions.reset();
+		document.getElementById('content')?.focus();
+	};
+
 	return (
 		<form className="space-y-6" onSubmit={onSubmit}>
 			<div className="flex" role="group">
@@ -171,6 +177,13 @@ export default function Home() {
 					className="w-full py-2 text-white bg-blue-500 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
 				>
 					입력
+				</button>
+				<button
+					type="button"
+					className="w-full py-2 mt-2 text-white bg-gray-500 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50"
+					onClick={onReset}
+				>
+					초기화
 				</button>
 			</div>
 		</form>

@@ -21,6 +21,7 @@ type FormAction = {
 	setCategory: (category: String) => void;
 	setPayment: (payment: String) => void;
 	setNote: (note: String) => void;
+
 	getName: () => Name;
 	getDate: () => String;
 	getContent: () => String;
@@ -28,21 +29,28 @@ type FormAction = {
 	getCategory: () => String;
 	getPayment: () => String;
 	getNote: () => String;
+
+	reset: () => void;
 };
 
 type FormStore = FormState & {
 	actions: FormAction;
 };
 
+// initial state
+const initialState: FormState = {
+	name: 'wanny',
+	date: new Date().toISOString().slice(0, 10),
+	content: '',
+	price: '',
+	category: '🏠 주거',
+	payment: '💳 신용카드',
+	note: '',
+};
+
 const useFormStore = create(
 	devtools<FormStore>((set, get) => ({
-		name: 'wanny',
-		date: new Date().toISOString().slice(0, 10),
-		content: '',
-		price: '',
-		category: '🏠 주거',
-		payment: '💳 신용카드',
-		note: '',
+		...initialState,
 		actions: {
 			setName: (name: Name) => set({ name }),
 			setDate: (date: String) => set({ date }),
@@ -51,6 +59,7 @@ const useFormStore = create(
 			setCategory: (category: String) => set({ category }),
 			setPayment: (payment: String) => set({ payment }),
 			setNote: (note: String) => set({ note }),
+
 			getName: () => get().name,
 			getDate: () => get().date,
 			getContent: () => get().content,
@@ -58,6 +67,8 @@ const useFormStore = create(
 			getCategory: () => get().category,
 			getPayment: () => get().payment,
 			getNote: () => get().note,
+
+			reset: () => set(initialState),
 		},
 	})),
 );
