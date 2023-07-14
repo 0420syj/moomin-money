@@ -1,8 +1,9 @@
+import { convertToSerial } from '@/utils/date';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 export type Name = 'wanny' | 'moomin';
-export type Date = String;
+export type Date = Number;
 export type Content = String;
 export type Price = String;
 export type Category = String;
@@ -46,7 +47,7 @@ type FormStore = FormState & {
 // initial state
 const initialState: FormState = {
 	name: 'wanny',
-	date: new Date().toISOString().slice(0, 10),
+	date: convertToSerial(new Date().toISOString().slice(0, 10)),
 	content: '',
 	price: '',
 	category: '🏠 주거',

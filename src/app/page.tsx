@@ -1,6 +1,7 @@
 'use client';
 
 import useFormStore, { Name } from '@/hooks/useFormStore';
+import { convertToSerial, convertToDate } from '@/utils/date';
 
 export default function Home() {
 	const formData = useFormStore();
@@ -67,8 +68,14 @@ export default function Home() {
 					required
 					id="date"
 					type="date"
-					value={formData.date as string}
-					onChange={e => formData.actions.setDate(e.target.value)}
+					value={convertToDate(formData.date as number)
+						.toISOString()
+						.slice(0, 10)}
+					onChange={e =>
+						formData.actions.setDate(
+							convertToSerial(e.target.value),
+						)
+					}
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
 			</div>

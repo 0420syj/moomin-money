@@ -1,6 +1,6 @@
 'use client';
 
-import { formatDate } from '@/utils/date';
+import { convertToDate } from '@/utils/date';
 import { useEffect, useState } from 'react';
 
 type DataType = {
@@ -44,7 +44,7 @@ export default function Page() {
 									{row.map((cell, cellIndex) => (
 										<td key={cellIndex}>
 											{cellIndex === 0
-												? formatDate(
+												? convertToDate(
 														Number(cell),
 												  ).toLocaleDateString()
 												: cell}
