@@ -24,10 +24,31 @@ export default function Home() {
 		formData.actions.setName(event.currentTarget.value as Name);
 	};
 
-	const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const { actions, ...data } = formData;
 		console.log(data);
+
+		const flatData = Object.values(data).flatMap(value => {
+			if (typeof value === 'object') {
+				return Object.values(value);
+			}
+			return value;
+		});
+		const array = Array.of(flatData);
+		console.log(array);
+
+		/*
+		const response = await fetch('/api/sheets', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+		const responseData = await response.json();
+		console.log(responseData);
+		*/
 	};
 
 	const onReset = (event: React.MouseEvent<HTMLButtonElement>) => {

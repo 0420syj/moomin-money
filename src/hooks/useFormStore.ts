@@ -44,7 +44,6 @@ type FormStore = FormState & {
 	actions: FormAction;
 };
 
-// initial state
 const initialState: FormState = {
 	name: 'wanny',
 	date: convertToSerial(new Date().toISOString().slice(0, 10)),
