@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { MONEYBOOK_DATA_SHEET_RANGE } from './constants';
 import { GoogleSheetsService } from '@/services/GoogleSheetsService';
+import { FormState } from '@/hooks/useFormStore';
 
 const googleSheetsService = new GoogleSheetsService();
 
@@ -21,9 +22,8 @@ export async function GET() {
 
 export async function POST(request: Request) {
 	try {
-		// console log request body
-		const body = await request.json();
-		console.log(body);
+		const formData: FormState = await request.json();
+		console.log(formData);
 
 		const response = await googleSheetsService.postSheetValues(
 			process.env.GOOGLE_SPREADSHEET_ID as string,

@@ -10,7 +10,7 @@ export type Category = String;
 export type Payment = String;
 export type Note = String;
 
-type FormState = {
+export type FormState = {
 	name: Name;
 	date: Date;
 	content: Content;
