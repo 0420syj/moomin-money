@@ -6,8 +6,8 @@ export type Name = 'wanny' | 'moomin';
 export type Date = Number;
 export type Content = String;
 export type Price = Number;
-export type Category = String;
-export type Payment = String;
+export type Category = String; // TODO : enum
+export type Payment = String; // TODO : enum
 export type Note = String;
 
 export type FormState = {
