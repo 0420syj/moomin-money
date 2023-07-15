@@ -1,3 +1,5 @@
+import { Date as DateType } from '@/hooks/useFormStore';
+
 const MS_PER_DAY = 86400 * 1000;
 const SECONDS_PER_DAY = 86400;
 const EPOCH_DIFFERENCE = 25569;
@@ -14,7 +16,7 @@ const getSeconds = (totalSeconds: number) => totalSeconds % 60;
 const getHours = (totalSeconds: number) => Math.floor(totalSeconds / (60 * 60));
 const getMinutes = (totalSeconds: number) => Math.floor(totalSeconds / 60) % 60;
 
-export const formatDate = (serial: number) => {
+export const convertToDate = (serial: number) => {
 	const utcDays = getUtcDays(serial);
 	const utcValue = getUtcValue(utcDays);
 	const dateInfo = getDateInfo(utcValue);
@@ -37,21 +39,15 @@ export const formatDate = (serial: number) => {
 		seconds,
 	);
 
-	// Adjust to GMT+9
 	date.setHours(date.getHours() + 9);
 
 	return date;
 };
 
-export const getSerial = (date: Date) => {
-	const utcDays = getUtcDays(date.getTime() / MS_PER_DAY);
-	const utcValue = getUtcValue(utcDays);
-	const dateInfo = getDateInfo(utcValue);
+export const convertToSerial = (date: string): DateType => {
+	const [year, month, day] = date.split('-').map(v => parseInt(v, 10));
+	const utcValue = Date.UTC(year, month - 1, day);
+	const utcDays = utcValue / MS_PER_DAY;
 
-	const totalSeconds =
-		date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds();
-
-	const fractionalDay = totalSeconds / SECONDS_PER_DAY;
-
-	return dateInfo.getTime() / MS_PER_DAY + fractionalDay;
+	return utcDays + EPOCH_DIFFERENCE;
 };

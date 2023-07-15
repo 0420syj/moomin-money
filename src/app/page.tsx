@@ -1,13 +1,10 @@
 'use client';
 
 import useFormStore, { Name } from '@/hooks/useFormStore';
+import { convertToSerial, convertToDate } from '@/utils/date';
 
 export default function Home() {
 	const formData = useFormStore();
-
-	const onNameButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-		formData.actions.setName(event.currentTarget.value as Name);
-	};
 
 	const nameLeftButtonClass = (name: Name) =>
 		`flex-1 px-4 py-2 text-sm font-medium border-t-2 border-b-2 border-l-2 border-r border-gray-200 rounded-l-lg ${
@@ -23,8 +20,32 @@ export default function Home() {
 				: 'bg-white text-black hover:bg-gray-100'
 		}`;
 
+	const onNameButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		formData.actions.setName(event.currentTarget.value as Name);
+	};
+
+	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const { actions, ...data } = formData;
+
+		const response = await fetch('/api/sheets', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+		const responseData = await response.json();
+	};
+
+	const onReset = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		formData.actions.reset();
+		document.getElementById('content')?.focus();
+	};
+
 	return (
-		<div className="space-y-6">
+		<form className="space-y-6" onSubmit={onSubmit}>
 			<div className="flex" role="group">
 				<button
 					type="button"
@@ -52,10 +73,17 @@ export default function Home() {
 					날짜
 				</label>
 				<input
+					required
 					id="date"
 					type="date"
-					value={formData.date as string}
-					onChange={e => formData.actions.setDate(e.target.value)}
+					value={convertToDate(formData.date as number)
+						.toISOString()
+						.slice(0, 10)}
+					onChange={e =>
+						formData.actions.setDate(
+							convertToSerial(e.target.value),
+						)
+					}
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
 			</div>
@@ -67,6 +95,7 @@ export default function Home() {
 					내용
 				</label>
 				<input
+					required
 					id="content"
 					type="text"
 					value={formData.content as string}
@@ -82,10 +111,13 @@ export default function Home() {
 					금액
 				</label>
 				<input
+					required
 					id="price"
 					type="number"
-					value={formData.price as string}
-					onChange={e => formData.actions.setPrice(e.target.value)}
+					value={formData.price as number}
+					onChange={e =>
+						formData.actions.setPrice(Number(e.target.value))
+					}
 					inputMode="numeric"
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
@@ -148,6 +180,7 @@ export default function Home() {
 					비고
 				</label>
 				<input
+					required
 					id="note"
 					type="text"
 					value={formData.note as string}
@@ -157,16 +190,19 @@ export default function Home() {
 			</div>
 			<div>
 				<button
-					type="button"
-					onClick={() => {
-						const { actions, ...data } = formData;
-						console.log(data);
-					}}
+					type="submit"
 					className="w-full py-2 text-white bg-blue-500 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
 				>
 					입력
 				</button>
+				<button
+					type="button"
+					className="w-full py-2 mt-2 text-white bg-gray-500 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50"
+					onClick={onReset}
+				>
+					초기화
+				</button>
 			</div>
-		</div>
+		</form>
 	);
 }
