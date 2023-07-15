@@ -1,41 +1,32 @@
 import { NextResponse } from 'next/server';
 import { MONEYBOOK_DATA_SHEET_RANGE } from './constants';
 import { GoogleSheetsService } from '@/services/GoogleSheetsService';
+import { FormState } from '@/hooks/useFormStore';
 
 const googleSheetsService = new GoogleSheetsService();
 
-export async function GET() {
-	try {
-		const values = await googleSheetsService.getSheetValues(
-			process.env.GOOGLE_SPREADSHEET_ID as string,
-			(process.env.GOOGLE_SHEET_NAME +
-				'!' +
-				MONEYBOOK_DATA_SHEET_RANGE) as string,
-		);
-
-		return NextResponse.json({ values });
-	} catch (error) {
-		console.error(error);
-	}
-}
+const sheetNameMap = {
+	wanny: process.env.GOOGLE_WANNY_SHEET_NAME,
+	moomin: process.env.GOOGLE_MOOMIN_SHEET_NAME,
+};
 
 export async function POST(request: Request) {
 	try {
+		const formData: FormState = await request.json();
+
+		const flatData = Object.entries(formData).reduce(
+			(acc, [key, value]) =>
+				key === 'name' ? acc : [...acc, value as string | number],
+			[] as (string | number)[],
+		);
+		const valueData = Array.of(flatData);
+
 		const response = await googleSheetsService.postSheetValues(
 			process.env.GOOGLE_SPREADSHEET_ID as string,
-			(process.env.GOOGLE_SHEET_NAME +
+			(sheetNameMap[formData.name] +
 				'!' +
 				MONEYBOOK_DATA_SHEET_RANGE) as string,
-			[
-				[
-					44652,
-					'중개수수료',
-					660000,
-					'🏠 주거',
-					'💵 현금',
-					'바른 부동산',
-				],
-			],
+			valueData,
 		);
 
 		return NextResponse.json(response);

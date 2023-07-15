@@ -6,11 +6,11 @@ export type Name = 'wanny' | 'moomin';
 export type Date = Number;
 export type Content = String;
 export type Price = Number;
-export type Category = String;
-export type Payment = String;
+export type Category = String; // TODO : enum
+export type Payment = String; // TODO : enum
 export type Note = String;
 
-type FormState = {
+export type FormState = {
 	name: Name;
 	date: Date;
 	content: Content;
@@ -44,7 +44,6 @@ type FormStore = FormState & {
 	actions: FormAction;
 };
 
-// initial state
 const initialState: FormState = {
 	name: 'wanny',
 	date: convertToSerial(new Date().toISOString().slice(0, 10)),
