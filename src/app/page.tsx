@@ -48,11 +48,12 @@ export default function Home() {
 
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		if (isFormIncomplete) {
+		if (isFormIncomplete || isSubmitting) {
 			return;
 		}
 
 		setIsSubmitting(true);
+		const sound = new Audio('/zelda_puzzle_solved.mp3');
 
 		const { actions, ...data } = formData;
 		const response = await fetch('/api/sheets', {
@@ -64,6 +65,7 @@ export default function Home() {
 		});
 		const responseData = await response.json();
 
+		sound.play();
 		setIsSubmitting(false);
 	};
 
