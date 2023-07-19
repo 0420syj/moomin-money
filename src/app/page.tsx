@@ -1,10 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import useFormStore, { Name } from '@/hooks/useFormStore';
 import { convertToSerial, convertToDate } from '@/utils/date';
 
 export default function Home() {
 	const formData = useFormStore();
+
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const nameLeftButtonClass = (name: Name) =>
 		`flex-1 px-4 py-2 text-sm font-medium border-t-2 border-b-2 border-l-2 border-r border-gray-200 rounded-l-lg ${
@@ -49,6 +52,8 @@ export default function Home() {
 			return;
 		}
 
+		setIsSubmitting(true);
+
 		const { actions, ...data } = formData;
 		const response = await fetch('/api/sheets', {
 			method: 'POST',
@@ -58,6 +63,8 @@ export default function Home() {
 			body: JSON.stringify(data),
 		});
 		const responseData = await response.json();
+
+		setIsSubmitting(false);
 	};
 
 	const onReset = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -216,13 +223,14 @@ export default function Home() {
 			<div>
 				<button
 					type="submit"
+					disabled={isSubmitting}
 					className={`w-full py-2 text-white rounded-lg shadow focus:outline-none  ${
-						isFormIncomplete
+						isFormIncomplete || isSubmitting
 							? 'bg-blue-200 cursor-not-allowed'
 							: 'bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
 					}`}
 				>
-					입력
+					{isSubmitting ? '입력중...' : '입력'}
 				</button>
 			</div>
 		</form>
