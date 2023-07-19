@@ -45,8 +45,11 @@ export default function Home() {
 
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const { actions, ...data } = formData;
+		if (isFormIncomplete) {
+			return;
+		}
 
+		const { actions, ...data } = formData;
 		const response = await fetch('/api/sheets', {
 			method: 'POST',
 			headers: {
@@ -213,20 +216,13 @@ export default function Home() {
 			<div>
 				<button
 					type="submit"
-					className={`w-full py-2 text-white rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 ${
+					className={`w-full py-2 text-white rounded-lg shadow focus:outline-none  ${
 						isFormIncomplete
 							? 'bg-blue-200 cursor-not-allowed'
-							: 'bg-blue-500 hover:bg-blue-600'
+							: 'bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
 					}`}
 				>
 					입력
-				</button>
-				<button
-					type="button"
-					className="w-full py-2 mt-2 text-white bg-gray-500 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50"
-					onClick={onReset}
-				>
-					초기화
 				</button>
 			</div>
 		</form>

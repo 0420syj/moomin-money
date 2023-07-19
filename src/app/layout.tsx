@@ -1,12 +1,8 @@
 import '@/app/globals.css';
-import { Inter } from 'next/font/google';
 import { Metadata } from 'next';
 
-const inter = Inter({ subsets: ['latin'] });
-
 const metadata: Metadata = {
-	title: 'Next.js Template',
-	description: 'Next.js template for fast development',
+	title: '빵빚무 가계부',
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => (

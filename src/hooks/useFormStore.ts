@@ -37,6 +37,7 @@ type FormAction = {
 	getPayment: () => Payment;
 	getNote: () => Note;
 
+	// 현재 미사용
 	reset: () => void;
 };
 
@@ -74,6 +75,7 @@ const useFormStore = create(
 			getPayment: () => get().payment,
 			getNote: () => get().note,
 
+			// 현재 미사용
 			reset: () => set(initialState),
 		},
 	})),
