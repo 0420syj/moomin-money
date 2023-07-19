@@ -1,10 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import useFormStore, { Name } from '@/hooks/useFormStore';
 import { convertToSerial, convertToDate } from '@/utils/date';
 
 export default function Home() {
 	const formData = useFormStore();
+
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const nameLeftButtonClass = (name: Name) =>
 		`flex-1 px-4 py-2 text-sm font-medium border-t-2 border-b-2 border-l-2 border-r border-gray-200 rounded-l-lg ${
@@ -20,14 +23,39 @@ export default function Home() {
 				: 'bg-white text-black hover:bg-gray-100'
 		}`;
 
+	const isFormIncomplete =
+		!formData.name ||
+		!formData.date ||
+		!formData.content ||
+		!formData.price ||
+		!formData.category ||
+		!formData.payment ||
+		!formData.note;
+
 	const onNameButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		formData.actions.setName(event.currentTarget.value as Name);
 	};
 
+	const onPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const priceValue = Number(e.target.value.replace(/,/g, ''));
+
+		if (isNaN(priceValue)) {
+			return;
+		}
+
+		formData.actions.setPrice(priceValue);
+	};
+
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const { actions, ...data } = formData;
+		if (isFormIncomplete || isSubmitting) {
+			return;
+		}
 
+		setIsSubmitting(true);
+		const sound = new Audio('/zelda_puzzle_solved.mp3');
+
+		const { actions, ...data } = formData;
 		const response = await fetch('/api/sheets', {
 			method: 'POST',
 			headers: {
@@ -36,6 +64,9 @@ export default function Home() {
 			body: JSON.stringify(data),
 		});
 		const responseData = await response.json();
+
+		sound.play();
+		setIsSubmitting(false);
 	};
 
 	const onReset = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -113,11 +144,14 @@ export default function Home() {
 				<input
 					required
 					id="price"
-					type="number"
-					value={formData.price as number}
-					onChange={e =>
-						formData.actions.setPrice(Number(e.target.value))
+					type="text"
+					value={
+						(formData.price as number) <= 0
+							? ''
+							: formData.price.toLocaleString()
 					}
+					onChange={onPriceChange}
+					autoComplete="off"
 					inputMode="numeric"
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
@@ -191,16 +225,14 @@ export default function Home() {
 			<div>
 				<button
 					type="submit"
-					className="w-full py-2 text-white bg-blue-500 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+					disabled={isSubmitting}
+					className={`w-full py-2 text-white rounded-lg shadow focus:outline-none  ${
+						isFormIncomplete || isSubmitting
+							? 'bg-blue-200 cursor-not-allowed'
+							: 'bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
+					}`}
 				>
-					입력
-				</button>
-				<button
-					type="button"
-					className="w-full py-2 mt-2 text-white bg-gray-500 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50"
-					onClick={onReset}
-				>
-					초기화
+					{isSubmitting ? '입력중...' : '입력'}
 				</button>
 			</div>
 		</form>
