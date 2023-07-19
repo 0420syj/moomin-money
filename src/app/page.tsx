@@ -20,8 +20,27 @@ export default function Home() {
 				: 'bg-white text-black hover:bg-gray-100'
 		}`;
 
+	const isFormIncomplete =
+		!formData.name ||
+		!formData.date ||
+		!formData.content ||
+		!formData.price ||
+		!formData.category ||
+		!formData.payment ||
+		!formData.note;
+
 	const onNameButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		formData.actions.setName(event.currentTarget.value as Name);
+	};
+
+	const onPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const priceValue = Number(e.target.value.replace(/,/g, ''));
+
+		if (isNaN(priceValue)) {
+			return;
+		}
+
+		formData.actions.setPrice(priceValue);
 	};
 
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -113,11 +132,14 @@ export default function Home() {
 				<input
 					required
 					id="price"
-					type="number"
-					value={formData.price as number}
-					onChange={e =>
-						formData.actions.setPrice(Number(e.target.value))
+					type="text"
+					value={
+						(formData.price as number) <= 0
+							? ''
+							: formData.price.toLocaleString()
 					}
+					onChange={onPriceChange}
+					autoComplete="off"
 					inputMode="numeric"
 					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
@@ -191,7 +213,11 @@ export default function Home() {
 			<div>
 				<button
 					type="submit"
-					className="w-full py-2 text-white bg-blue-500 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+					className={`w-full py-2 text-white rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 ${
+						isFormIncomplete
+							? 'bg-blue-200 cursor-not-allowed'
+							: 'bg-blue-500 hover:bg-blue-600'
+					}`}
 				>
 					입력
 				</button>
