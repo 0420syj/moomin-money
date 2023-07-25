@@ -3,8 +3,17 @@
 import { useState } from 'react';
 import useFormStore, { Name } from '@/hooks/useFormStore';
 import { convertToSerial, convertToDate } from '@/utils/date';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
+	const { data: session } = useSession({
+		required: true,
+		onUnauthenticated() {
+			redirect('/api/auth/signin');
+		},
+	});
+
 	const formData = useFormStore();
 
 	const [isSubmitting, setIsSubmitting] = useState(false);
