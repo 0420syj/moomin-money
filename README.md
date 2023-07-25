@@ -45,6 +45,7 @@ My Next.js app
 
 - [Next.js](https://nextjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
+- [Zustand](https://zustand-demo.pmnd.rs/)
 - [Storybook](https://storybook.js.org/)
 - [Yarn Berry](https://yarnpkg.com/)
 - [Jest](https://jestjs.io/)

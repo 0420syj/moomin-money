@@ -1,30 +1,50 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Home from '@/app/page';
 
-describe('Home', () => {
-	beforeEach(() => {
+beforeEach(() => {
+	act(() => {
 		render(<Home />);
 	});
+});
 
-	test('renders Home component', () => {
-		expect(screen.getByText('Next.js + Storybook')).toBeInTheDocument();
+describe('Home Page', () => {
+	it('renders without crashing', async () => {
+		expect(await screen.findByText('🐶 빵떡')).toBeInTheDocument();
+		expect(await screen.findByText('🐻‍❄️ 무민')).toBeInTheDocument();
+
+		expect(await screen.findByText('날짜')).toBeInTheDocument();
+		expect(await screen.findByText('내용')).toBeInTheDocument();
+		expect(await screen.findByText('금액')).toBeInTheDocument();
+		expect(await screen.findByText('카테고리')).toBeInTheDocument();
+		expect(await screen.findByText('결제수단')).toBeInTheDocument();
+		expect(await screen.findByText('비고')).toBeInTheDocument();
+
+		expect(await screen.findByText('입력')).toBeInTheDocument();
 	});
 
-	test('renders Vercel Logo', () => {
-		expect(screen.getByAltText('Vercel Logo')).toBeInTheDocument();
+	it('should init 🐶 빵떡 as initial activated button', async () => {
+		const activatedButton = await screen.findByText('🐶 빵떡');
+		expect(activatedButton).toHaveClass('bg-blue-500');
 	});
 
-	test('renders Vercel Logo with width 72', () => {
-		expect(screen.getByAltText('Vercel Logo')).toHaveAttribute(
-			'width',
-			'72',
-		);
+	it('should init 🏠 주거 as initial category value', async () => {
+		const category = await screen.findByLabelText('카테고리');
+		expect(category).toHaveValue('🏠 주거');
 	});
 
-	test('renders Vercel Logo with height 16', () => {
-		expect(screen.getByAltText('Vercel Logo')).toHaveAttribute(
-			'height',
-			'16',
-		);
+	it('should init 💳 신용카드 as initial payment value', async () => {
+		const payment = await screen.findByLabelText('결제수단');
+		expect(payment).toHaveValue('💳 신용카드');
+	});
+
+	it('should change active button by click deactivated button', async () => {
+		const activatedButton = await screen.findByText('🐶 빵떡');
+		const deactivatedButton = await screen.findByText('🐻‍❄️ 무민');
+
+		await userEvent.click(deactivatedButton);
+
+		expect(activatedButton).not.toHaveClass('bg-blue-500');
+		expect(deactivatedButton).toHaveClass('bg-blue-500');
 	});
 });
