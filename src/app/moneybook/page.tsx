@@ -4,6 +4,8 @@ import { convertToDate } from '@/utils/date';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
+import ButtonGroup from '@/components/ButtonGroup';
+import useFormStore, { Name } from '@/hooks/useFormStore';
 
 type DataType = {
 	values: string[][];
@@ -11,6 +13,12 @@ type DataType = {
 
 export default function Page() {
 	const [data, setData] = useState<DataType | null>(null);
+
+	const formData = useFormStore();
+
+	const onNameButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		formData.actions.setName(event.currentTarget.value as Name);
+	};
 
 	const sheetNameMap = {
 		wanny: process.env.NEXT_PUBLIC_GOOGLE_WANNY_SHEET_NAME as string,
@@ -25,14 +33,18 @@ export default function Page() {
 	});
 
 	useEffect(() => {
-		fetch(`/api/sheets/${sheetNameMap.wanny}`)
+		fetch(`/api/sheets/${sheetNameMap[formData.name]}`)
 			.then(response => response.json())
 			.then((data: DataType) => setData(data))
 			.catch(error => console.error(error));
-	}, []);
+	}, [formData.name]);
 
 	return (
 		<>
+			<ButtonGroup
+				selectedName={formData.name}
+				onNameButtonClick={onNameButtonClick}
+			/>
 			{data ? (
 				<>
 					<table>

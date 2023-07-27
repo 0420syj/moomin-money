@@ -5,6 +5,7 @@ import useFormStore, { Name } from '@/hooks/useFormStore';
 import { convertToSerial, convertToDate } from '@/utils/date';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
+import ButtonGroup from '@/components/ButtonGroup';
 
 export default function Home() {
 	const { data: session } = useSession({
@@ -17,20 +18,6 @@ export default function Home() {
 	const formData = useFormStore();
 
 	const [isSubmitting, setIsSubmitting] = useState(false);
-
-	const nameLeftButtonClass = (name: Name) =>
-		`flex-1 px-4 py-2 text-sm font-medium border-t-2 border-b-2 border-l-2 border-r border-gray-200 rounded-l-lg ${
-			formData.name === name
-				? 'bg-blue-500 text-white'
-				: 'bg-white text-black hover:bg-gray-100'
-		}`;
-
-	const nameRightButtonClass = (name: Name) =>
-		`flex-1 px-4 py-2 text-sm font-medium border-t-2 border-b-2 border-l border-r-2 border-gray-200 rounded-r-lg ${
-			formData.name === name
-				? 'bg-blue-500 text-white'
-				: 'bg-white text-black hover:bg-gray-100'
-		}`;
 
 	const isFormIncomplete =
 		!formData.name ||
@@ -86,24 +73,10 @@ export default function Home() {
 
 	return (
 		<form className="space-y-6" onSubmit={onSubmit}>
-			<div className="flex" role="group">
-				<button
-					type="button"
-					value="wanny"
-					className={nameLeftButtonClass('wanny')}
-					onClick={onNameButtonClick}
-				>
-					🐶 빵떡
-				</button>
-				<button
-					type="button"
-					value="moomin"
-					className={nameRightButtonClass('moomin')}
-					onClick={onNameButtonClick}
-				>
-					🐻‍❄️ 무민
-				</button>
-			</div>
+			<ButtonGroup
+				selectedName={formData.name}
+				onNameButtonClick={onNameButtonClick}
+			/>
 
 			<div>
 				<label
