@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { MONEYBOOK_DATA_SHEET_RANGE } from '../constants';
 import { GoogleSheetsService } from '@/services/GoogleSheetsService';
 
 const googleSheetsService = new GoogleSheetsService();
@@ -13,7 +12,7 @@ export async function GET(
 
 		const values = await googleSheetsService.getSheetValues(
 			process.env.GOOGLE_SPREADSHEET_ID as string,
-			(slug + '!' + MONEYBOOK_DATA_SHEET_RANGE) as string,
+			(slug + '!' + process.env.GOOGLE_SHEET_RANGE) as string,
 		);
 
 		return NextResponse.json({ values });
