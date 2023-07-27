@@ -2,6 +2,8 @@
 
 import { convertToDate } from '@/utils/date';
 import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 type DataType = {
 	values: string[][];
@@ -10,8 +12,20 @@ type DataType = {
 export default function Page() {
 	const [data, setData] = useState<DataType | null>(null);
 
+	const sheetNameMap = {
+		wanny: process.env.NEXT_PUBLIC_GOOGLE_WANNY_SHEET_NAME as string,
+		moomin: process.env.NEXT_PUBLIC_GOOGLE_MOOMIN_SHEET_NAME as string,
+	};
+
+	const { data: session } = useSession({
+		required: true,
+		onUnauthenticated() {
+			redirect('/api/auth/signin');
+		},
+	});
+
 	useEffect(() => {
-		fetch('/api/sheets/와와 FO의 사본')
+		fetch(`/api/sheets/${sheetNameMap.wanny}`)
 			.then(response => response.json())
 			.then((data: DataType) => setData(data))
 			.catch(error => console.error(error));
