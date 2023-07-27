@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { MONEYBOOK_DATA_SHEET_RANGE } from './constants';
 import { GoogleSheetsService } from '@/services/GoogleSheetsService';
 import { FormState } from '@/hooks/useFormStore';
 
@@ -25,7 +24,7 @@ export async function POST(request: Request) {
 			process.env.GOOGLE_SPREADSHEET_ID as string,
 			(sheetNameMap[formData.name] +
 				'!' +
-				MONEYBOOK_DATA_SHEET_RANGE) as string,
+				process.env.GOOGLE_SHEET_RANGE) as string,
 			valueData,
 		);
 

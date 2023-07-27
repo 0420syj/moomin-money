@@ -9,16 +9,16 @@ const SigninButton = () => {
 	if (session && session.user) {
 		return (
 			<div className="flex gap-4 ml-auto">
-				<p className="text-sky-600">{session.user.name}</p>
-				<button onClick={() => signOut()} className="text-red-600">
-					Sign Out
+				<p className="text-white">{session.user.name}</p>
+				<button onClick={() => signOut()} className="text-white">
+					로그아웃
 				</button>
 			</div>
 		);
 	}
 	return (
-		<button onClick={() => signIn()} className="ml-auto text-green-600">
-			Sign In
+		<button onClick={() => signIn()} className="ml-auto text-white">
+			로그인
 		</button>
 	);
 };
