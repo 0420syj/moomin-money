@@ -10,6 +10,7 @@ import PaymentSelect from '@/components/PaymentSelect';
 import SubmitButton from '@/components/SubmitButton';
 import DateInput from '@/components/DateInput';
 import ContentInput from '@/components/ContentInput';
+import PriceInput from '@/components/PriceInput';
 
 export default function Home() {
 	const { data: session } = useSession({
@@ -34,16 +35,6 @@ export default function Home() {
 
 	const onNameButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		formData.actions.setName(event.currentTarget.value as Name);
-	};
-
-	const onPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const priceValue = Number(e.target.value.replace(/,/g, ''));
-
-		if (isNaN(priceValue)) {
-			return;
-		}
-
-		formData.actions.setPrice(priceValue);
 	};
 
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -85,28 +76,12 @@ export default function Home() {
 					value={formData.content as string}
 					onChange={formData.actions.setContent}
 				/>
-				<div>
-					<label
-						htmlFor="price"
-						className="block text-sm font-medium text-gray-700"
-					>
-						금액
-					</label>
-					<input
-						required
-						id="price"
-						type="text"
-						value={
-							(formData.price as number) <= 0
-								? ''
-								: formData.price.toLocaleString()
-						}
-						onChange={onPriceChange}
-						autoComplete="off"
-						inputMode="numeric"
-						className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-					/>
-				</div>
+				<PriceInput
+					value={formData.price as number}
+					onChange={priceValue =>
+						formData.actions.setPrice(priceValue)
+					}
+				/>
 				<CategorySelect
 					selectedCategory={formData.category as string}
 					onCategoryChange={e =>
