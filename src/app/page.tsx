@@ -45,7 +45,6 @@ export default function Home() {
 		}
 
 		setIsSubmitting(true);
-		const sound = new Audio('/zelda_puzzle_solved.mp3');
 
 		const { actions, ...data } = formData;
 		const response = await fetch('/api/sheets', {
@@ -58,6 +57,7 @@ export default function Home() {
 		const responseData = await response.json();
 
 		// 효과음 재생 주석처리
+		// const sound = new Audio('/zelda_puzzle_solved.mp3');
 		// sound.play();
 		setIsSubmitting(false);
 	};
