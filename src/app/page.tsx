@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import useFormStore, { Name } from '@/hooks/useFormStore';
+import useFormStore, { Category, Name, Payment } from '@/hooks/useFormStore';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 import ButtonGroup from '@/components/ButtonGroup';
@@ -84,15 +84,15 @@ export default function Home() {
 					}
 				/>
 				<CategorySelect
-					selectedCategory={formData.category as string}
+					selectedCategory={formData.category as Category}
 					onCategoryChange={e =>
-						formData.actions.setCategory(e.target.value)
+						formData.actions.setCategory(e.target.value as Category)
 					}
 				/>
 				<PaymentSelect
-					selectedPayment={formData.payment as string}
+					selectedPayment={formData.payment as Payment}
 					onPaymentChange={e =>
-						formData.actions.setPayment(e.target.value)
+						formData.actions.setPayment(e.target.value as Payment)
 					}
 				/>
 				<NoteInput
