@@ -16,7 +16,7 @@ const PaymentButtonGroup: React.FC<PaymentSelectProps> = ({
 			<label className="block text-sm font-medium text-gray-700">
 				결제수단 : {selectedPayment}
 			</label>
-			<div className="space-y-2 columns-4">
+			<div className="grid grid-cols-4 gap-4">
 				{paymentList.map(payment => (
 					<div key={payment}>
 						<button

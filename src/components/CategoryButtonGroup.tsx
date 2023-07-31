@@ -16,7 +16,7 @@ const CategoryButtonGroup: React.FC<CategorySelectProps> = ({
 			<label className="block text-sm font-medium text-gray-700">
 				카테고리 : {selectedCategory}
 			</label>
-			<div className="space-y-2 columns-4">
+			<div className="grid grid-cols-4 gap-4">
 				{categoryList.map(category => (
 					<div key={category}>
 						<button
