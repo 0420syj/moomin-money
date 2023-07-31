@@ -1,0 +1,41 @@
+import { Category, categoryMap } from '@/hooks/useFormStore';
+
+interface CategorySelectProps {
+	selectedCategory: Category;
+	onCategoryButtonClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+const CategoryButtonGroup: React.FC<CategorySelectProps> = ({
+	selectedCategory,
+	onCategoryButtonClick,
+}) => {
+	const categoryList: Category[] = Object.values(categoryMap);
+
+	return (
+		<>
+			<label className="block text-sm font-medium text-gray-700">
+				카테고리 : {selectedCategory}
+			</label>
+			<div className="space-y-2 columns-4">
+				{categoryList.map(category => (
+					<div key={category}>
+						<button
+							type="button"
+							value={category}
+							className={`w-full py-2 rounded-lg shadow focus:outline-none  ${
+								selectedCategory !== category
+									? 'bg-blue-200'
+									: 'bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
+							}`}
+							onClick={onCategoryButtonClick}
+						>
+							{category.substring(0, 2)}
+						</button>
+					</div>
+				))}
+			</div>
+		</>
+	);
+};
+
+export default CategoryButtonGroup;

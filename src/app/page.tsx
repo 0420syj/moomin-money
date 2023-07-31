@@ -4,14 +4,14 @@ import { useState } from 'react';
 import useFormStore, { Category, Name, Payment } from '@/hooks/useFormStore';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
-import ButtonGroup from '@/components/ButtonGroup';
-import CategorySelect from '@/components/CategorySelect';
-import PaymentSelect from '@/components/PaymentSelect';
+import NameButtonGroup from '@/components/NameButtonGroup';
 import SubmitButton from '@/components/SubmitButton';
 import DateInput from '@/components/DateInput';
 import ContentInput from '@/components/ContentInput';
 import PriceInput from '@/components/PriceInput';
 import NoteInput from '@/components/NodeInput';
+import CategoryButtonGroup from '@/components/CategoryButtonGroup';
+import PaymentButtonGroup from '@/components/PaymentButtonGroup';
 
 export default function Home() {
 	const { data: session } = useSession({
@@ -65,7 +65,7 @@ export default function Home() {
 	return (
 		<>
 			<form className="space-y-6" onSubmit={onSubmit}>
-				<ButtonGroup
+				<NameButtonGroup
 					selectedName={formData.name}
 					onNameButtonClick={onNameButtonClick}
 				/>
@@ -79,25 +79,27 @@ export default function Home() {
 				/>
 				<PriceInput
 					value={formData.price as number}
-					onChange={priceValue =>
-						formData.actions.setPrice(priceValue)
-					}
+					onChange={formData.actions.setPrice}
 				/>
-				<CategorySelect
+				<CategoryButtonGroup
 					selectedCategory={formData.category as Category}
-					onCategoryChange={e =>
-						formData.actions.setCategory(e.target.value as Category)
+					onCategoryButtonClick={e =>
+						formData.actions.setCategory(
+							e.currentTarget.value as Category,
+						)
 					}
 				/>
-				<PaymentSelect
+				<PaymentButtonGroup
 					selectedPayment={formData.payment as Payment}
-					onPaymentChange={e =>
-						formData.actions.setPayment(e.target.value as Payment)
+					onPaymentButtonClick={e =>
+						formData.actions.setPayment(
+							e.currentTarget.value as Payment,
+						)
 					}
 				/>
 				<NoteInput
 					value={formData.note as string}
-					onChange={noteValue => formData.actions.setNote(noteValue)}
+					onChange={formData.actions.setNote}
 				/>
 				<SubmitButton
 					isSubmitting={isSubmitting}
