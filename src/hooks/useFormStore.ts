@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 export type Name = 'wanny' | 'moomin';
-export type Date = Number;
+export type SerialDate = Number;
 export type Content = String;
 export type Price = Number;
 export type Category = String; // TODO : enum
@@ -12,7 +12,7 @@ export type Note = String;
 
 export type FormState = {
 	name: Name;
-	date: Date;
+	date: SerialDate;
 	content: Content;
 	price: Price;
 	category: Category;
@@ -22,7 +22,7 @@ export type FormState = {
 
 type FormAction = {
 	setName: (name: Name) => void;
-	setDate: (date: Date) => void;
+	setDate: (date: SerialDate) => void;
 	setContent: (content: Content) => void;
 	setPrice: (price: Price) => void;
 	setCategory: (category: Category) => void;
@@ -30,7 +30,7 @@ type FormAction = {
 	setNote: (note: Note) => void;
 
 	getName: () => Name;
-	getDate: () => Date;
+	getDate: () => SerialDate;
 	getContent: () => Content;
 	getPrice: () => Price;
 	getCategory: () => Category;
@@ -60,7 +60,7 @@ const useFormStore = create(
 		...initialState,
 		actions: {
 			setName: (name: Name) => set({ name }),
-			setDate: (date: Date) => set({ date }),
+			setDate: (date: SerialDate) => set({ date }),
 			setContent: (content: Content) => set({ content }),
 			setPrice: (price: Price) => set({ price }),
 			setCategory: (category: Category) => set({ category }),

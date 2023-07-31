@@ -1,4 +1,4 @@
-import { Date as DateType } from '@/hooks/useFormStore';
+import { SerialDate } from '@/hooks/useFormStore';
 
 const MS_PER_DAY = 86400 * 1000;
 const SECONDS_PER_DAY = 86400;
@@ -45,7 +45,7 @@ export const convertToDate = (serial: number) => {
 	return dateOffset;
 };
 
-export const convertToSerial = (date: string): DateType => {
+export const convertToSerial = (date: string): SerialDate => {
 	const [year, month, day] = date.split('-').map(v => parseInt(v, 10));
 	const utcValue = Date.UTC(year, month - 1, day);
 	const utcDays = utcValue / MS_PER_DAY;
