@@ -11,6 +11,7 @@ import SubmitButton from '@/components/SubmitButton';
 import DateInput from '@/components/DateInput';
 import ContentInput from '@/components/ContentInput';
 import PriceInput from '@/components/PriceInput';
+import NoteInput from '@/components/NodeInput';
 
 export default function Home() {
 	const { data: session } = useSession({
@@ -94,22 +95,10 @@ export default function Home() {
 						formData.actions.setPayment(e.target.value)
 					}
 				/>
-				<div>
-					<label
-						htmlFor="note"
-						className="block text-sm font-medium text-gray-700"
-					>
-						비고
-					</label>
-					<input
-						required
-						id="note"
-						type="text"
-						value={formData.note as string}
-						onChange={e => formData.actions.setNote(e.target.value)}
-						className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-					/>
-				</div>
+				<NoteInput
+					value={formData.note as string}
+					onChange={noteValue => formData.actions.setNote(noteValue)}
+				/>
 				<SubmitButton
 					isSubmitting={isSubmitting}
 					isFormIncomplete={isFormIncomplete}
