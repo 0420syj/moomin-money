@@ -10,7 +10,7 @@ const PaymentSelect: React.FC<PaymentSelectProps> = ({
 	onPaymentChange,
 }) => {
 	return (
-		<div>
+		<>
 			<label
 				htmlFor="payment"
 				className="block text-sm font-medium text-gray-700"
@@ -28,7 +28,7 @@ const PaymentSelect: React.FC<PaymentSelectProps> = ({
 				<option>💲 제로페이</option>
 				<option>➗ 할부</option>
 			</select>
-		</div>
+		</>
 	);
 };
 
