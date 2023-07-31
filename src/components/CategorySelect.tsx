@@ -10,7 +10,7 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
 	onCategoryChange,
 }) => {
 	return (
-		<div>
+		<>
 			<label
 				htmlFor="category"
 				className="block text-sm font-medium text-gray-700"
@@ -40,7 +40,7 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
 				<option>❤️ 선물</option>
 				<option>🪕 기타</option>
 			</select>
-		</div>
+		</>
 	);
 };
 

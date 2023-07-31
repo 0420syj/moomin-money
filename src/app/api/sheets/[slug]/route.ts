@@ -10,9 +10,12 @@ export async function GET(
 	try {
 		const slug = params.slug;
 
+		const { searchParams } = new URL(request.url);
+		const range = searchParams.get('range');
+
 		const values = await googleSheetsService.getSheetValues(
 			process.env.GOOGLE_SPREADSHEET_ID as string,
-			(slug + '!' + process.env.GOOGLE_SHEET_RANGE) as string,
+			(slug + '!' + (range ?? process.env.GOOGLE_SHEET_RANGE)) as string,
 		);
 
 		return NextResponse.json({ values });
