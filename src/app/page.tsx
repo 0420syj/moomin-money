@@ -9,6 +9,7 @@ import CategorySelect from '@/components/CategorySelect';
 import PaymentSelect from '@/components/PaymentSelect';
 import SubmitButton from '@/components/SubmitButton';
 import DateInput from '@/components/DateInput';
+import ContentInput from '@/components/ContentInput';
 
 export default function Home() {
 	const { data: session } = useSession({
@@ -76,30 +77,14 @@ export default function Home() {
 					selectedName={formData.name}
 					onNameButtonClick={onNameButtonClick}
 				/>
-
 				<DateInput
 					value={formData.date as number}
 					onChange={formData.actions.setDate}
 				/>
-
-				<div>
-					<label
-						htmlFor="content"
-						className="block text-sm font-medium text-gray-700"
-					>
-						내용
-					</label>
-					<input
-						required
-						id="content"
-						type="text"
-						value={formData.content as string}
-						onChange={e =>
-							formData.actions.setContent(e.target.value)
-						}
-						className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-					/>
-				</div>
+				<ContentInput
+					value={formData.content as string}
+					onChange={formData.actions.setContent}
+				/>
 				<div>
 					<label
 						htmlFor="price"
