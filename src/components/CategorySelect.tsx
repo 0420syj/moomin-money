@@ -1,9 +1,12 @@
 import React from 'react';
+import { Category, categoryMap } from '@/hooks/useFormStore';
 
 interface CategorySelectProps {
-	selectedCategory: string;
+	selectedCategory: Category;
 	onCategoryChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
+
+const categoryList: Category[] = Object.values(categoryMap);
 
 const CategorySelect: React.FC<CategorySelectProps> = ({
 	selectedCategory,
@@ -23,22 +26,9 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
 				onChange={onCategoryChange}
 				className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 			>
-				<option>🏠 주거</option>
-				<option>🧺 생활</option>
-				<option>🍎 식재료</option>
-				<option>🍔 배달</option>
-				<option>🍽️ 외식</option>
-				<option>🍷 와인/술</option>
-				<option>🏪 편의점</option>
-				<option>🎠 문화/여가</option>
-				<option>😺 냐옹</option>
-				<option>🚗 교통</option>
-				<option>✈️ 여행</option>
-				<option>👔 옷/미용</option>
-				<option>🏥 건강</option>
-				<option>📚 자기개발</option>
-				<option>❤️ 선물</option>
-				<option>🪕 기타</option>
+				{categoryList.map(category => (
+					<option key={category}>{category}</option>
+				))}
 			</select>
 		</>
 	);

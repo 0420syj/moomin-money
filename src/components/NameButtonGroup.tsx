@@ -1,11 +1,11 @@
 import React from 'react';
 
-interface ButtonGroupProps {
+interface NameButtonGroupProps {
 	selectedName: string;
 	onNameButtonClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const ButtonGroup: React.FC<ButtonGroupProps> = ({
+const NameButtonGroup: React.FC<NameButtonGroupProps> = ({
 	selectedName,
 	onNameButtonClick,
 }) => {
@@ -45,4 +45,4 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
 	);
 };
 
-export default ButtonGroup;
+export default NameButtonGroup;

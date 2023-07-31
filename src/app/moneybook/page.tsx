@@ -4,7 +4,7 @@ import { convertToDate } from '@/utils/date';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
-import ButtonGroup from '@/components/ButtonGroup';
+import ButtonGroup from '@/components/NameButtonGroup';
 import useFormStore, { Name } from '@/hooks/useFormStore';
 
 type DataType = {

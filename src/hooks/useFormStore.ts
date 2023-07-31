@@ -2,12 +2,38 @@ import { convertToSerial } from '@/utils/date';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+export const categoryMap = {
+	House: '🏠 주거',
+	Life: '🧺 생활',
+	Groceries: '🍎 식재료',
+	Delivery: '🍔 배달',
+	DiningOut: '🍽️ 외식',
+	WineAlcohol: '🍷 와인/술',
+	ConvenienceStore: '🏪 편의점',
+	CultureLeisure: '🎠 문화/여가',
+	Cat: '😺 냐옹',
+	Transportation: '🚗 교통',
+	Travel: '✈️ 여행',
+	ClothesBeauty: '👔 옷/미용',
+	Health: '🏥 건강',
+	SelfDevelopment: '📚 자기개발',
+	Gift: '❤️ 선물',
+	Etc: '🪕 기타',
+} as const;
+
+export const paymentMap = {
+	CreditCard: '💳 신용카드',
+	Cash: '💵 현금',
+	ZeroPay: '💲 제로페이',
+	Installment: '➗ 할부',
+} as const;
+
 export type Name = 'wanny' | 'moomin';
 export type SerialDate = Number;
 export type Content = String;
 export type Price = Number;
-export type Category = String; // TODO : enum
-export type Payment = String; // TODO : enum
+export type Category = (typeof categoryMap)[keyof typeof categoryMap];
+export type Payment = (typeof paymentMap)[keyof typeof paymentMap];
 export type Note = String;
 
 export type FormState = {
