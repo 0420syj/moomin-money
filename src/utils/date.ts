@@ -39,9 +39,10 @@ export const convertToDate = (serial: number) => {
 		seconds,
 	);
 
-	date.setHours(date.getHours() + 9);
+	const offset = date.getTimezoneOffset() * 60000;
+	const dateOffset = new Date(date.getTime() - offset);
 
-	return date;
+	return dateOffset;
 };
 
 export const convertToSerial = (date: string): DateType => {
