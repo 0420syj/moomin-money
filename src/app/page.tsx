@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useFormStore, { Name } from '@/hooks/useFormStore';
 import { convertToSerial, convertToDate } from '@/utils/date';
 import { useSession } from 'next-auth/react';
@@ -20,9 +20,6 @@ export default function Home() {
 	const formData = useFormStore();
 
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [wannyMoneySpent, setWannyMoneySpent] = useState('0');
-	const [moominMoneySpent, setMoominMoneySpent] = useState('0');
-	const [totalMoneySpent, setTotalMoneySpent] = useState('0');
 
 	const isFormIncomplete =
 		!formData.name ||
@@ -71,43 +68,8 @@ export default function Home() {
 		setIsSubmitting(false);
 	};
 
-	useEffect(() => {
-		document.getElementById('content')?.focus();
-		const wannyMoneySpentResponse = fetch(`/api/sheets/Main?range=C24`)
-			.then(response => response.json())
-			.catch(error => console.error(error));
-
-		const moominMoneySpentResponse = fetch(`/api/sheets/Main?range=C25`)
-			.then(response => response.json())
-			.catch(error => console.error(error));
-
-		const totalMoneySpentResponse = fetch(`/api/sheets/Main?range=C26`)
-			.then(response => response.json())
-			.catch(error => console.error(error));
-
-		return () => {
-			wannyMoneySpentResponse.then(response => {
-				const data = response.values[0][0];
-				setWannyMoneySpent(data.toLocaleString());
-			});
-
-			moominMoneySpentResponse.then(response => {
-				const data = response.values[0][0];
-				setMoominMoneySpent(data.toLocaleString());
-			});
-
-			totalMoneySpentResponse.then(response => {
-				const data = response.values[0][0];
-				setTotalMoneySpent(data.toLocaleString());
-			});
-		};
-	}, []);
-
 	return (
 		<>
-			<div className="space-y-6">
-				{wannyMoneySpent}원 {moominMoneySpent}원 {totalMoneySpent}원
-			</div>
 			<form className="space-y-6" onSubmit={onSubmit}>
 				<ButtonGroup
 					selectedName={formData.name}
