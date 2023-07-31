@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useFormStore, { Name } from '@/hooks/useFormStore';
 import { convertToSerial, convertToDate } from '@/utils/date';
 import { useSession } from 'next-auth/react';
@@ -20,6 +20,9 @@ export default function Home() {
 	const formData = useFormStore();
 
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [wannyMoneySpent, setWannyMoneySpent] = useState('0');
+	const [moominMoneySpent, setMoominMoneySpent] = useState('0');
+	const [totalMoneySpent, setTotalMoneySpent] = useState('0');
 
 	const isFormIncomplete =
 		!formData.name ||
@@ -63,7 +66,8 @@ export default function Home() {
 		});
 		const responseData = await response.json();
 
-		sound.play();
+		// 효과음 재생 주석처리
+		// sound.play();
 		setIsSubmitting(false);
 	};
 
@@ -73,114 +77,153 @@ export default function Home() {
 		document.getElementById('content')?.focus();
 	};
 
-	return (
-		<form className="space-y-6" onSubmit={onSubmit}>
-			<ButtonGroup
-				selectedName={formData.name}
-				onNameButtonClick={onNameButtonClick}
-			/>
+	useEffect(() => {
+		document.getElementById('content')?.focus();
+		const wannyMoneySpentResponse = fetch(`/api/sheets/Main?range=C24`)
+			.then(response => response.json())
+			.catch(error => console.error(error));
 
-			<div>
-				<label
-					htmlFor="date"
-					className="block text-sm font-medium text-gray-700"
-				>
-					날짜
-				</label>
-				<input
-					required
-					id="date"
-					type="date"
-					value={convertToDate(formData.date as number)
-						.toISOString()
-						.slice(0, 10)}
-					onChange={e =>
-						formData.actions.setDate(
-							convertToSerial(e.target.value),
-						)
+		const moominMoneySpentResponse = fetch(`/api/sheets/Main?range=C25`)
+			.then(response => response.json())
+			.catch(error => console.error(error));
+
+		const totalMoneySpentResponse = fetch(`/api/sheets/Main?range=C26`)
+			.then(response => response.json())
+			.catch(error => console.error(error));
+
+		return () => {
+			wannyMoneySpentResponse.then(response => {
+				const data = response.values[0][0];
+				setWannyMoneySpent(data.toLocaleString());
+			});
+
+			moominMoneySpentResponse.then(response => {
+				const data = response.values[0][0];
+				setMoominMoneySpent(data.toLocaleString());
+			});
+
+			totalMoneySpentResponse.then(response => {
+				const data = response.values[0][0];
+				setTotalMoneySpent(data.toLocaleString());
+			});
+		};
+	}, []);
+
+	return (
+		<>
+			<div className="space-y-6">
+				{wannyMoneySpent}원 {moominMoneySpent}원 {totalMoneySpent}원
+			</div>
+			<form className="space-y-6" onSubmit={onSubmit}>
+				<ButtonGroup
+					selectedName={formData.name}
+					onNameButtonClick={onNameButtonClick}
+				/>
+
+				<div>
+					<label
+						htmlFor="date"
+						className="block text-sm font-medium text-gray-700"
+					>
+						날짜
+					</label>
+					<input
+						required
+						id="date"
+						type="date"
+						value={convertToDate(formData.date as number)
+							.toISOString()
+							.slice(0, 10)}
+						onChange={e =>
+							formData.actions.setDate(
+								convertToSerial(e.target.value),
+							)
+						}
+						className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+					/>
+				</div>
+				<div>
+					<label
+						htmlFor="content"
+						className="block text-sm font-medium text-gray-700"
+					>
+						내용
+					</label>
+					<input
+						required
+						id="content"
+						type="text"
+						value={formData.content as string}
+						onChange={e =>
+							formData.actions.setContent(e.target.value)
+						}
+						className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+					/>
+				</div>
+				<div>
+					<label
+						htmlFor="price"
+						className="block text-sm font-medium text-gray-700"
+					>
+						금액
+					</label>
+					<input
+						required
+						id="price"
+						type="text"
+						value={
+							(formData.price as number) <= 0
+								? ''
+								: formData.price.toLocaleString()
+						}
+						onChange={onPriceChange}
+						autoComplete="off"
+						inputMode="numeric"
+						className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+					/>
+				</div>
+				<CategorySelect
+					selectedCategory={formData.category as string}
+					onCategoryChange={e =>
+						formData.actions.setCategory(e.target.value)
 					}
-					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
-			</div>
-			<div>
-				<label
-					htmlFor="content"
-					className="block text-sm font-medium text-gray-700"
-				>
-					내용
-				</label>
-				<input
-					required
-					id="content"
-					type="text"
-					value={formData.content as string}
-					onChange={e => formData.actions.setContent(e.target.value)}
-					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-				/>
-			</div>
-			<div>
-				<label
-					htmlFor="price"
-					className="block text-sm font-medium text-gray-700"
-				>
-					금액
-				</label>
-				<input
-					required
-					id="price"
-					type="text"
-					value={
-						(formData.price as number) <= 0
-							? ''
-							: formData.price.toLocaleString()
+				<PaymentSelect
+					selectedPayment={formData.payment as string}
+					onPaymentChange={e =>
+						formData.actions.setPayment(e.target.value)
 					}
-					onChange={onPriceChange}
-					autoComplete="off"
-					inputMode="numeric"
-					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 				/>
-			</div>
-			<CategorySelect
-				selectedCategory={formData.category as string}
-				onCategoryChange={e =>
-					formData.actions.setCategory(e.target.value)
-				}
-			/>
-			<PaymentSelect
-				selectedPayment={formData.payment as string}
-				onPaymentChange={e =>
-					formData.actions.setPayment(e.target.value)
-				}
-			/>
-			<div>
-				<label
-					htmlFor="note"
-					className="block text-sm font-medium text-gray-700"
-				>
-					비고
-				</label>
-				<input
-					required
-					id="note"
-					type="text"
-					value={formData.note as string}
-					onChange={e => formData.actions.setNote(e.target.value)}
-					className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-				/>
-			</div>
-			<div>
-				<button
-					type="submit"
-					disabled={isSubmitting}
-					className={`w-full py-2 text-white rounded-lg shadow focus:outline-none  ${
-						isFormIncomplete || isSubmitting
-							? 'bg-blue-200 cursor-not-allowed'
-							: 'bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
-					}`}
-				>
-					{isSubmitting ? '입력중...' : '입력'}
-				</button>
-			</div>
-		</form>
+				<div>
+					<label
+						htmlFor="note"
+						className="block text-sm font-medium text-gray-700"
+					>
+						비고
+					</label>
+					<input
+						required
+						id="note"
+						type="text"
+						value={formData.note as string}
+						onChange={e => formData.actions.setNote(e.target.value)}
+						className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+					/>
+				</div>
+				<div>
+					<button
+						type="submit"
+						disabled={isSubmitting}
+						className={`w-full py-2 text-white rounded-lg shadow focus:outline-none  ${
+							isFormIncomplete || isSubmitting
+								? 'bg-blue-200 cursor-not-allowed'
+								: 'bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
+						}`}
+					>
+						{isSubmitting ? '입력중...' : '입력'}
+					</button>
+				</div>
+			</form>
+		</>
 	);
 }
