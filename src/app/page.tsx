@@ -71,12 +71,6 @@ export default function Home() {
 		setIsSubmitting(false);
 	};
 
-	const onReset = (event: React.MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-		formData.actions.reset();
-		document.getElementById('content')?.focus();
-	};
-
 	useEffect(() => {
 		document.getElementById('content')?.focus();
 		const wannyMoneySpentResponse = fetch(`/api/sheets/Main?range=C24`)
