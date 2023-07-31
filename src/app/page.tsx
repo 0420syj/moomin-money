@@ -8,6 +8,7 @@ import { redirect } from 'next/navigation';
 import ButtonGroup from '@/components/ButtonGroup';
 import CategorySelect from '@/components/CategorySelect';
 import PaymentSelect from '@/components/PaymentSelect';
+import SubmitButton from '@/components/SubmitButton';
 
 export default function Home() {
 	const { data: session } = useSession({
@@ -166,19 +167,12 @@ export default function Home() {
 						className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 					/>
 				</div>
-				<div>
-					<button
-						type="submit"
-						disabled={isSubmitting}
-						className={`w-full py-2 text-white rounded-lg shadow focus:outline-none  ${
-							isFormIncomplete || isSubmitting
-								? 'bg-blue-200 cursor-not-allowed'
-								: 'bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
-						}`}
-					>
-						{isSubmitting ? '입력중...' : '입력'}
-					</button>
-				</div>
+				<SubmitButton
+					isSubmitting={isSubmitting}
+					isFormIncomplete={isFormIncomplete}
+				>
+					{isSubmitting ? '입력중...' : '입력'}
+				</SubmitButton>
 			</form>
 		</>
 	);
