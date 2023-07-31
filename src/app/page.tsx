@@ -9,6 +9,7 @@ import ButtonGroup from '@/components/ButtonGroup';
 import CategorySelect from '@/components/CategorySelect';
 import PaymentSelect from '@/components/PaymentSelect';
 import SubmitButton from '@/components/SubmitButton';
+import DateInput from '@/components/DateInput';
 
 export default function Home() {
 	const { data: session } = useSession({
@@ -77,28 +78,11 @@ export default function Home() {
 					onNameButtonClick={onNameButtonClick}
 				/>
 
-				<div>
-					<label
-						htmlFor="date"
-						className="block text-sm font-medium text-gray-700"
-					>
-						날짜
-					</label>
-					<input
-						required
-						id="date"
-						type="date"
-						value={convertToDate(formData.date as number)
-							.toISOString()
-							.slice(0, 10)}
-						onChange={e =>
-							formData.actions.setDate(
-								convertToSerial(e.target.value),
-							)
-						}
-						className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-					/>
-				</div>
+				<DateInput
+					value={formData.date as number}
+					onChange={formData.actions.setDate}
+				/>
+
 				<div>
 					<label
 						htmlFor="content"
