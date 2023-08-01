@@ -16,6 +16,12 @@ const getSeconds = (totalSeconds: number) => totalSeconds % 60;
 const getHours = (totalSeconds: number) => Math.floor(totalSeconds / (60 * 60));
 const getMinutes = (totalSeconds: number) => Math.floor(totalSeconds / 60) % 60;
 
+export const getTodayDateString = () => {
+	const offset = new Date().getTimezoneOffset() * 60000;
+	const today = new Date(Date.now() - offset);
+	return today.toISOString().slice(0, 10);
+};
+
 export const convertToDate = (serial: number) => {
 	const utcDays = getUtcDays(serial);
 	const utcValue = getUtcValue(utcDays);

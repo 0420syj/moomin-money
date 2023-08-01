@@ -1,4 +1,3 @@
-// PriceInput.tsx
 import React, { FC, ChangeEvent } from 'react';
 
 interface PriceInputProps {
