@@ -16,6 +16,14 @@ const Header = () => {
 							가계부
 						</a>
 					</li>
+					<li>
+						<a
+							href="https://github.com/0420syj/moomin-money/issues/28"
+							className="hover:underline"
+						>
+							개선요청
+						</a>
+					</li>
 				</ul>
 			</nav>
 			<SigninButton />
