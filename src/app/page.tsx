@@ -1,16 +1,14 @@
-'use client';
-
-import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
 import SubmitForm from '@/components/SubmitForm';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from './api/auth/[...nextauth]/route';
+import { redirect } from 'next/navigation';
 
-export default function Home() {
-	const { data: session } = useSession({
-		required: true,
-		onUnauthenticated() {
-			redirect('/api/auth/signin');
-		},
-	});
+export default async function Home() {
+	const session = await getServerSession(authOptions);
+
+	if (!session) {
+		redirect('/api/auth/signin');
+	}
 
 	return (
 		<>
