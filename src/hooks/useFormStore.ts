@@ -1,4 +1,4 @@
-import { convertToSerial } from '@/utils/date';
+import { convertToSerial, getTodayDateString } from '@/utils/date';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -73,7 +73,7 @@ type FormStore = FormState & {
 
 const initialState: FormState = {
 	name: 'wanny',
-	date: convertToSerial(new Date().toISOString().slice(0, 10)),
+	date: convertToSerial(getTodayDateString()),
 	content: '',
 	price: 0,
 	category: '🏠 주거',

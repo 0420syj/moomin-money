@@ -1,4 +1,3 @@
-// DateInput.tsx
 import React, { ChangeEvent, FC } from 'react';
 import { convertToSerial, convertToDate } from '@/utils/date';
 

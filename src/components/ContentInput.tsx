@@ -1,4 +1,3 @@
-// ContentInput.tsx
 import React, { FC, ChangeEvent } from 'react';
 
 interface ContentInputProps {
