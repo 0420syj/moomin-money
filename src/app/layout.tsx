@@ -2,6 +2,7 @@ import '@/app/globals.css';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Providers from '@/components/Providers';
+import { Analytics } from '@vercel/analytics/react';
 import { Metadata } from 'next';
 
 const metadata: Metadata = {
@@ -15,6 +16,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 				<Providers>
 					<Header />
 					<main className="flex-grow px-4 py-5">{children}</main>
+					<Analytics />
 					<Footer />
 				</Providers>
 			</body>
