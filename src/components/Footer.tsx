@@ -13,12 +13,17 @@ const Footer = () => {
 					이번달 소비
 				</a>{' '}
 				|{' '}
-				<a href={googleSpreadSheetLink} className="hover:underline">
+				<a
+					href={googleSpreadSheetLink}
+					target="_blank"
+					className="hover:underline"
+				>
 					가계부 링크
 				</a>
 				|{' '}
 				<a
 					href="https://github.com/0420syj/moomin-money/issues/28"
+					target="_blank"
 					className="hover:underline"
 				>
 					개선요청

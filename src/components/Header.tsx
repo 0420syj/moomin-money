@@ -22,6 +22,7 @@ const Header = () => {
 					<li>
 						<a
 							href={googleSpreadSheetLink}
+							target="_blank"
 							className="hover:underline"
 						>
 							가계부 링크
@@ -30,6 +31,7 @@ const Header = () => {
 					<li>
 						<a
 							href="https://github.com/0420syj/moomin-money/issues/28"
+							target="_blank"
 							className="hover:underline"
 						>
 							개선요청
