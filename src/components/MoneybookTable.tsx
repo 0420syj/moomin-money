@@ -46,9 +46,10 @@ const MoneybookTable = () => {
 			.catch(error => console.error(error));
 	}, [formData.name]);
 
-	const filteredData = data?.values.filter(row =>
+	let filteredData = data?.values.filter(row =>
 		serialDateList.includes(Number(row[0])),
 	);
+	filteredData?.sort((a, b) => Number(a[0]) - Number(b[0]));
 
 	return (
 		<>
