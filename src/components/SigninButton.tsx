@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { signIn, signOut, useSession } from 'next-auth/react';
 
 const SigninButton = () => {
@@ -8,11 +9,18 @@ const SigninButton = () => {
 
 	if (session && session.user) {
 		return (
-			<div className="flex gap-4 ml-auto">
-				<p className="text-white">{session.user.name}</p>
+			<div className="flex h-8 gap-4 ml-auto">
 				<button onClick={() => signOut()} className="text-white">
 					로그아웃
 				</button>
+				<Image
+					src={session.user.image ?? ''}
+					alt={session.user.name ?? ''}
+					width={32}
+					height={32}
+					className="rounded-full"
+					loading="lazy"
+				/>
 			</div>
 		);
 	}
