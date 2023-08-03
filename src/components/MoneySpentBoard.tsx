@@ -31,7 +31,7 @@ const MoneySpentBoard = () => {
 	}, []);
 
 	return (
-		<div className="flex flex-row justify-around my-2">
+		<div className="flex flex-row justify-around mb-4">
 			<div className="flex flex-col items-center">
 				<div>🐶 빵떡</div>
 				<div>₩{wannyMoneySpent.toLocaleString()}</div>
