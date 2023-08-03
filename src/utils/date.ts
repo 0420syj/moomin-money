@@ -22,6 +22,30 @@ export const getTodayDateString = () => {
 	return today.toISOString().slice(0, 10);
 };
 
+export const toKoreanISOString = (date: Date) => {
+	const offset = date.getTimezoneOffset() * 60000;
+	const dateOffset = new Date(date.getTime() - offset);
+	return dateOffset.toISOString().slice(0, 10);
+};
+
+export const getAllSerialDatesByMonth = (
+	year: number,
+	month: number,
+): number[] => {
+	const firstDay = new Date(year, month - 1, 1);
+	const lastDay = new Date(year, month, 0);
+
+	const firstSerial = convertToSerial(toKoreanISOString(firstDay)) as number;
+	const lastSerial = convertToSerial(toKoreanISOString(lastDay)) as number;
+
+	const serialDates = Array.from(
+		{ length: lastSerial - firstSerial + 1 },
+		(_, i) => firstSerial + i,
+	);
+
+	return serialDates;
+};
+
 export const convertToDate = (serial: number) => {
 	const utcDays = getUtcDays(serial);
 	const utcValue = getUtcValue(utcDays);

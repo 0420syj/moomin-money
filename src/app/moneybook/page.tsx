@@ -1,6 +1,6 @@
 'use client';
 
-import { convertToDate } from '@/utils/date';
+import { convertToDate, getAllSerialDatesByMonth } from '@/utils/date';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
@@ -25,19 +25,30 @@ export default function Page() {
 		moomin: process.env.NEXT_PUBLIC_GOOGLE_MOOMIN_SHEET_NAME as string,
 	};
 
-	const { data: session } = useSession({
+	useSession({
 		required: true,
 		onUnauthenticated() {
 			redirect('/api/auth/signin');
 		},
 	});
 
+	const todayYear = new Date().getFullYear();
+	const todayMonth = new Date().getMonth() + 1;
+
+	const serialDateList = getAllSerialDatesByMonth(todayYear, todayMonth);
+
 	useEffect(() => {
+		setData(null);
+
 		fetch(`/api/sheets/${sheetNameMap[formData.name]}`)
 			.then(response => response.json())
 			.then((data: DataType) => setData(data))
 			.catch(error => console.error(error));
 	}, [formData.name]);
+
+	const filteredData = data?.values.filter(row =>
+		serialDateList.includes(Number(row[0])),
+	);
 
 	return (
 		<>
@@ -56,7 +67,7 @@ export default function Page() {
 							</tr>
 						</thead>
 						<tbody>
-							{data.values.slice(1).map((row, index) => (
+							{filteredData?.map((row, index) => (
 								<tr key={index}>
 									{row.map((cell, cellIndex) => (
 										<td key={cellIndex}>
