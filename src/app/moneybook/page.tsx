@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import MoneybookTable from '@/components/MoneybookTable';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../api/auth/[...nextauth]/route';
+import MoneySpentBoard from '@/components/MoneySpentBoard';
 
 export default async function Page() {
 	const session = await getServerSession(authOptions);
@@ -10,5 +11,10 @@ export default async function Page() {
 		redirect('/api/auth/signin');
 	}
 
-	return <MoneybookTable />;
+	return (
+		<>
+			<MoneySpentBoard />
+			<MoneybookTable />
+		</>
+	);
 }
