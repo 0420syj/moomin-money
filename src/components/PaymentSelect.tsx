@@ -8,6 +8,9 @@ interface PaymentSelectProps {
 
 const paymentList: Payment[] = Object.values(paymentMap);
 
+/**
+ * @deprecated use `PaymentButtonGroup` instead
+ */
 const PaymentSelect: React.FC<PaymentSelectProps> = ({
 	selectedPayment,
 	onPaymentChange,

@@ -8,6 +8,9 @@ interface CategorySelectProps {
 
 const categoryList: Category[] = Object.values(categoryMap);
 
+/**
+ * @deprecated use `CategoryButtonGroup` instead
+ */
 const CategorySelect: React.FC<CategorySelectProps> = ({
 	selectedCategory,
 	onCategoryChange,
