@@ -2,6 +2,9 @@ import React from 'react';
 import SigninButton from './SigninButton';
 
 const Header = () => {
+	const googleSpreadSheetLink =
+		process.env.NEXT_PUBLIC_GOOGLE_SPREADSHEET_LINK ?? ('#' as string);
+
 	return (
 		<header className="flex justify-between w-full p-5 text-white bg-blue-500">
 			<nav>
@@ -13,7 +16,15 @@ const Header = () => {
 					</li>
 					<li>
 						<a href="/moneybook" className="hover:underline">
-							가계부
+							이번달 소비
+						</a>
+					</li>
+					<li>
+						<a
+							href={googleSpreadSheetLink}
+							className="hover:underline"
+						>
+							가계부 링크
 						</a>
 					</li>
 					<li>
