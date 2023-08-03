@@ -14,7 +14,8 @@ const PaymentButtonGroup: React.FC<PaymentSelectProps> = ({
 	return (
 		<>
 			<label className="block text-sm font-medium text-gray-700">
-				결제수단 : {selectedPayment}
+				결제수단
+				{/* : {selectedPayment} */}
 			</label>
 			<div className="grid grid-cols-4 gap-4">
 				{paymentList.map(payment => (
@@ -25,11 +26,13 @@ const PaymentButtonGroup: React.FC<PaymentSelectProps> = ({
 							className={`w-full py-2 rounded-lg shadow focus:outline-none  ${
 								selectedPayment !== payment
 									? 'bg-blue-200'
-									: 'bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
+									: 'bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 text-white'
 							}`}
 							onClick={onPaymentButtonClick}
 						>
-							{payment.substring(0, 2)}
+							{selectedPayment !== payment
+								? payment.substring(0, 2)
+								: payment.substring(2)}
 						</button>
 					</div>
 				))}
