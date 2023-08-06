@@ -1,37 +1,23 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-
-/**
- * @deprecated use Server Side Rendering instead
- */
-const MoneySpentBoard = () => {
+const fetchMoneySpent = async (range: string) => {
 	const mainSheetName = process.env
 		.NEXT_PUBLIC_GOOGLE_MAIN_SHEET_NAME as string;
 
-	const [wannyMoneySpent, setWannyMoneySpent] = useState(0);
-	const [moominMoneySpent, setMoominMoneySpent] = useState(0);
-	const [totalMoneySpent, setTotalMoneySpent] = useState(0);
+	const host = process.env.NEXT_PUBLIC_HOST as string;
 
-	useEffect(() => {
-		fetch(`/api/sheets/${mainSheetName}?range=C24`)
-			.then(response => response.json())
-			.then(data => data.values[0][0])
-			.then(setWannyMoneySpent)
-			.catch(error => console.error(error));
+	const response = await fetch(
+		`${host}/api/sheets/${mainSheetName}?range=${range}`,
+	);
+	const data = await response.json();
+	return data.values[0][0];
+};
 
-		fetch(`/api/sheets/${mainSheetName}?range=C25`)
-			.then(response => response.json())
-			.then(data => data.values[0][0])
-			.then(setMoominMoneySpent)
-			.catch(error => console.error(error));
-
-		fetch(`/api/sheets/${mainSheetName}?range=C26`)
-			.then(response => response.json())
-			.then(data => data.values[0][0])
-			.then(setTotalMoneySpent)
-			.catch(error => console.error(error));
-	}, []);
+export default async function MoneySpentBoard() {
+	const [wannyMoneySpent, moominMoneySpent, totalMoneySpent] =
+		await Promise.all([
+			fetchMoneySpent('C24'),
+			fetchMoneySpent('C25'),
+			fetchMoneySpent('C26'),
+		]);
 
 	return (
 		<div className="flex flex-row justify-around mb-4">
@@ -49,6 +35,4 @@ const MoneySpentBoard = () => {
 			</div>
 		</div>
 	);
-};
-
-export default MoneySpentBoard;
+}
