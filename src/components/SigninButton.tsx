@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
@@ -28,7 +27,7 @@ export default async function SigninButton() {
 					width={32}
 					height={32}
 					className="rounded-full"
-					loading="lazy"
+					loading="eager"
 				/>
 			</div>
 		);
