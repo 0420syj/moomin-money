@@ -3,9 +3,6 @@ import Image from 'next/image';
 import SigninButton from './SigninButton';
 
 const Header = () => {
-	const googleSpreadSheetLink =
-		process.env.NEXT_PUBLIC_GOOGLE_SPREADSHEET_LINK ?? ('#' as string);
-
 	return (
 		<header className="flex items-center justify-between w-full p-5 text-white bg-[#024280]">
 			<nav className="flex items-center h-8">
