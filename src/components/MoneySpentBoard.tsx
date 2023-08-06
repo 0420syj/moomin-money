@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
+/**
+ * @deprecated use Server Side Rendering instead
+ */
 const MoneySpentBoard = () => {
 	const mainSheetName = process.env
 		.NEXT_PUBLIC_GOOGLE_MAIN_SHEET_NAME as string;
