@@ -27,6 +27,7 @@ const Header = () => {
 					</li>
 				</ul>
 			</nav>
+			{/* @ts-expect-error Server Component */}
 			<SigninButton />
 		</header>
 	);
