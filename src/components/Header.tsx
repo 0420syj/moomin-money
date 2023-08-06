@@ -1,17 +1,15 @@
 import React from 'react';
 import Image from 'next/image';
 import SigninButton from './SigninButton';
+import Link from 'next/link';
 
 const Header = () => {
-	const googleSpreadSheetLink =
-		process.env.NEXT_PUBLIC_GOOGLE_SPREADSHEET_LINK ?? ('#' as string);
-
 	return (
 		<header className="flex items-center justify-between w-full p-5 text-white bg-[#024280]">
 			<nav className="flex items-center h-8">
 				<ul className="flex items-center space-x-4">
 					<li>
-						<a href="/" className="hover:underline">
+						<Link href="/">
 							<Image
 								src="/favicon.ico"
 								alt="logo"
@@ -20,15 +18,16 @@ const Header = () => {
 								className="rounded-full"
 								loading="lazy"
 							/>
-						</a>
+						</Link>
 					</li>
 					<li>
-						<a href="/moneybook" className="hover:underline">
+						<Link href="/moneybook" className="hover:underline">
 							이번달 소비
-						</a>
+						</Link>
 					</li>
 				</ul>
 			</nav>
+			{/* @ts-expect-error Server Component */}
 			<SigninButton />
 		</header>
 	);

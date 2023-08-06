@@ -7,7 +7,7 @@ import SubmitButton from '@/components/SubmitButton';
 import DateInput from '@/components/DateInput';
 import ContentInput from '@/components/ContentInput';
 import PriceInput from '@/components/PriceInput';
-import NoteInput from '@/components/NodeInput';
+import NoteInput from '@/components/NoteInput';
 import CategoryButtonGroup from '@/components/CategoryButtonGroup';
 import PaymentButtonGroup from '@/components/PaymentButtonGroup';
 

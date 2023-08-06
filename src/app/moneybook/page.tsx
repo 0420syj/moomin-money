@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
+import MoneySpentBoard from '@/components/MoneySpentBoard';
 import MoneybookTable from '@/components/MoneybookTable';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../api/auth/[...nextauth]/route';
-import MoneySpentBoard from '@/components/MoneySpentBoard';
 
 export default async function Page() {
 	const session = await getServerSession(authOptions);
@@ -13,6 +13,7 @@ export default async function Page() {
 
 	return (
 		<>
+			{/* @ts-expect-error Server Component */}
 			<MoneySpentBoard />
 			<MoneybookTable />
 		</>
