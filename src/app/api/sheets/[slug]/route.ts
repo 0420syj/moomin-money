@@ -10,11 +10,12 @@ export async function GET(
 	request: Request,
 	{ params }: { params: { slug: string } },
 ) {
-	const session = await getServerSession(authOptions);
+	// TODO: API Auth 해결
+	// const session = await getServerSession(authOptions);
 
-	if (!session) {
-		redirect('/api/auth/signin');
-	}
+	// if (!session) {
+	// 	redirect('/api/auth/signin');
+	// }
 
 	try {
 		const slug = params.slug;

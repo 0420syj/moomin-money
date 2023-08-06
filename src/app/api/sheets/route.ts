@@ -13,11 +13,12 @@ const sheetNameMap = {
 };
 
 export async function POST(request: Request) {
-	const session = await getServerSession(authOptions);
+	// TODO: API Auth 해결
+	// const session = await getServerSession(authOptions);
 
-	if (!session) {
-		redirect('/api/auth/signin');
-	}
+	// if (!session) {
+	// 	redirect('/api/auth/signin');
+	// }
 
 	try {
 		const formData: FormState = await request.json();

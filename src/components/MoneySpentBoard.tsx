@@ -7,6 +7,7 @@ const fetchMoneySpent = async (range: string) => {
 	const response = await fetch(
 		`${host}/api/sheets/${mainSheetName}?range=${range}`,
 	);
+
 	const data = await response.json();
 	return data.values[0][0];
 };
