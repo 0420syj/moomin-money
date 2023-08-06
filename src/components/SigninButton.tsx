@@ -1,18 +1,27 @@
-'use client';
-
 import React from 'react';
 import Image from 'next/image';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { redirect } from 'next/navigation';
 
-const SigninButton = () => {
-	const { data: session } = useSession();
+export default async function SigninButton() {
+	const session = await getServerSession(authOptions);
+
+	if (!session) {
+		redirect('/api/auth/signin');
+	}
 
 	if (session && session.user) {
 		return (
 			<div className="flex h-8 gap-4 ml-auto">
-				<button onClick={() => signOut()} className="text-white">
+				<Link
+					href="/api/auth/signout"
+					className="flex items-center hover:underline"
+				>
 					로그아웃
-				</button>
+				</Link>
 				<Image
 					src={session.user.image ?? ''}
 					alt={session.user.name ?? ''}
@@ -25,10 +34,13 @@ const SigninButton = () => {
 		);
 	}
 	return (
-		<button onClick={() => signIn()} className="ml-auto text-white">
-			로그인
-		</button>
+		<>
+			<Link
+				href="/api/auth/signin"
+				className="flex items-center hover:underline"
+			>
+				로그인
+			</Link>
+		</>
 	);
-};
-
-export default SigninButton;
+}

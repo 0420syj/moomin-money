@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import SigninButton from './SigninButton';
+import Link from 'next/link';
 
 const Header = () => {
 	return (
@@ -8,7 +9,7 @@ const Header = () => {
 			<nav className="flex items-center h-8">
 				<ul className="flex items-center space-x-4">
 					<li>
-						<a href="/" className="hover:underline">
+						<Link href="/">
 							<Image
 								src="/favicon.ico"
 								alt="logo"
@@ -17,12 +18,12 @@ const Header = () => {
 								className="rounded-full"
 								loading="lazy"
 							/>
-						</a>
+						</Link>
 					</li>
 					<li>
-						<a href="/moneybook" className="hover:underline">
+						<Link href="/moneybook" className="hover:underline">
 							이번달 소비
-						</a>
+						</Link>
 					</li>
 				</ul>
 			</nav>
