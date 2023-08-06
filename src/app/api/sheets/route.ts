@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { GoogleSheetsService } from '@/services/GoogleSheetsService';
 import { FormState } from '@/hooks/useFormStore';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '../auth/[...nextauth]/route';
+import { redirect } from 'next/navigation';
 
 const googleSheetsService = new GoogleSheetsService();
 
@@ -10,6 +13,12 @@ const sheetNameMap = {
 };
 
 export async function POST(request: Request) {
+	const session = await getServerSession(authOptions);
+
+	if (!session) {
+		redirect('/api/auth/signin');
+	}
+
 	try {
 		const formData: FormState = await request.json();
 
