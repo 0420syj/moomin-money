@@ -1,7 +1,8 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
-const allowedAccounts = process.env.ALLOWED_ACCOUNTS?.split(',') ?? [];
+const allowedAccounts =
+	process.env.NEXT_PUBLIC_ALLOWED_ACCOUNTS?.split(',') ?? [];
 
 export const authOptions = {
 	providers: [

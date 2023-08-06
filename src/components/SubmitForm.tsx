@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useFormStore, { Category, Name, Payment } from '@/hooks/useFormStore';
 import NameButtonGroup from '@/components/NameButtonGroup';
 import SubmitButton from '@/components/SubmitButton';
@@ -10,9 +10,26 @@ import PriceInput from '@/components/PriceInput';
 import NoteInput from '@/components/NoteInput';
 import CategoryButtonGroup from '@/components/CategoryButtonGroup';
 import PaymentButtonGroup from '@/components/PaymentButtonGroup';
+import { useSession } from 'next-auth/react';
+
+const allowedAccounts =
+	process.env.NEXT_PUBLIC_ALLOWED_ACCOUNTS?.split(',') ?? [];
 
 const SubmitForm: React.FC = () => {
 	const formData = useFormStore();
+
+	const { data: session } = useSession();
+
+	useEffect(() => {
+		if (session && session.user) {
+			const { email } = session.user;
+			if (email === allowedAccounts[0]) {
+				formData.actions.setName('wanny');
+			} else if (email === allowedAccounts[1]) {
+				formData.actions.setName('moomin');
+			}
+		}
+	}, [session]);
 
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
