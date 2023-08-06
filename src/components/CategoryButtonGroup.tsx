@@ -23,7 +23,7 @@ const CategoryButtonGroup: React.FC<CategorySelectProps> = ({
 						<button
 							type="button"
 							value={category}
-							className={`w-full py-2 rounded-lg shadow focus:outline-none  ${
+							className={`w-full py-2 rounded-lg shadow  ${
 								selectedCategory !== category
 									? 'bg-blue-200'
 									: 'bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 text-white'

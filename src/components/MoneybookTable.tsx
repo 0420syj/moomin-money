@@ -2,8 +2,6 @@
 
 import { convertToDate, getAllSerialDatesByMonth } from '@/utils/date';
 import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
 import ButtonGroup from '@/components/NameButtonGroup';
 import useFormStore, { Name } from '@/hooks/useFormStore';
 
@@ -25,18 +23,6 @@ const MoneybookTable = () => {
 		moomin: process.env.NEXT_PUBLIC_GOOGLE_MOOMIN_SHEET_NAME as string,
 	};
 
-	useSession({
-		required: true,
-		onUnauthenticated() {
-			redirect('/api/auth/signin');
-		},
-	});
-
-	const todayYear = new Date().getFullYear();
-	const todayMonth = new Date().getMonth() + 1;
-
-	const serialDateList = getAllSerialDatesByMonth(todayYear, todayMonth);
-
 	useEffect(() => {
 		setData(null);
 
@@ -45,6 +31,11 @@ const MoneybookTable = () => {
 			.then((data: DataType) => setData(data))
 			.catch(error => console.error(error));
 	}, [formData.name]);
+
+	const todayYear = new Date().getFullYear();
+	const todayMonth = new Date().getMonth() + 1;
+
+	const serialDateList = getAllSerialDatesByMonth(todayYear, todayMonth);
 
 	let filteredData = data?.values.filter(row =>
 		serialDateList.includes(Number(row[0])),
@@ -62,23 +53,27 @@ const MoneybookTable = () => {
 					<table>
 						<thead>
 							<tr>
-								{data.values[0].map((header, index) => (
-									<th key={index}>{header}</th>
-								))}
+								<th>날짜</th>
+								<th>내용</th>
+								<th>금액</th>
+								<th>카테고리</th>
+								<th>결제수단</th>
+								<th>비고</th>
 							</tr>
 						</thead>
 						<tbody>
 							{filteredData?.map((row, index) => (
 								<tr key={index}>
-									{row.map((cell, cellIndex) => (
-										<td key={cellIndex}>
-											{cellIndex === 0
-												? convertToDate(
-														Number(cell),
-												  ).toLocaleDateString()
-												: cell}
-										</td>
-									))}
+									<td>
+										{convertToDate(
+											Number(row[0]),
+										).toLocaleDateString()}
+									</td>
+									<td>{row[1]}</td>
+									<td>{Number(row[2]).toLocaleString()}원</td>
+									<td>{row[3]}</td>
+									<td>{row[4]}</td>
+									<td>{row[5]}</td>
 								</tr>
 							))}
 						</tbody>
