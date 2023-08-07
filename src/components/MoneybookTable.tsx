@@ -36,9 +36,15 @@ const MoneybookTable = () => {
 	const todayMonth = new Date().getMonth() + 1;
 
 	const serialDateList = getAllSerialDatesByMonth(todayYear, todayMonth);
+	const lastMonthSerialDateList = getAllSerialDatesByMonth(
+		todayYear,
+		todayMonth - 1,
+	);
 
-	let filteredData = data?.values.filter(row =>
-		serialDateList.includes(Number(row[0])),
+	let filteredData = data?.values.filter(
+		row =>
+			serialDateList.includes(Number(row[0])) ||
+			lastMonthSerialDateList.includes(Number(row[0])),
 	);
 	filteredData?.sort((a, b) => Number(a[0]) - Number(b[0]));
 
