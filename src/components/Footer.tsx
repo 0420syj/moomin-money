@@ -10,7 +10,7 @@ const Footer = () => {
 				</a>{' '}
 				|{' '}
 				<a href="/moneybook" className="hover:underline">
-					이번달 소비
+					최근 2개월 소비
 				</a>{' '}
 				|{' '}
 				<a
