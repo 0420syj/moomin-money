@@ -2,8 +2,8 @@
 
 import { convertToDate, getAllSerialDatesByMonth } from '@/utils/date';
 import { useEffect, useState } from 'react';
-import ButtonGroup from '@/components/NameButtonGroup';
-import useFormStore, { Name } from '@/hooks/useFormStore';
+import NameButtonGroup from '@/components/NameButtonGroup';
+import useFormStore from '@/hooks/useFormStore';
 
 type DataType = {
 	values: string[][];
@@ -13,10 +13,6 @@ const MoneybookTable = () => {
 	const [data, setData] = useState<DataType | null>(null);
 
 	const formData = useFormStore();
-
-	const onNameButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-		formData.actions.setName(event.currentTarget.value as Name);
-	};
 
 	const sheetNameMap = {
 		wanny: process.env.NEXT_PUBLIC_GOOGLE_WANNY_SHEET_NAME as string,
@@ -50,10 +46,7 @@ const MoneybookTable = () => {
 
 	return (
 		<>
-			<ButtonGroup
-				selectedName={formData.name}
-				onNameButtonClick={onNameButtonClick}
-			/>
+			<NameButtonGroup />
 			{data ? (
 				<>
 					<table>

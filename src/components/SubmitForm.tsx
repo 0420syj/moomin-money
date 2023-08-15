@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import useFormStore, { Category, Name, Payment } from '@/hooks/useFormStore';
+import useFormStore from '@/hooks/useFormStore';
 import NameButtonGroup from '@/components/NameButtonGroup';
 import SubmitButton from '@/components/SubmitButton';
 import DateInput from '@/components/DateInput';
@@ -17,6 +17,7 @@ const allowedAccounts =
 
 const SubmitForm: React.FC = () => {
 	const formData = useFormStore();
+	const [submitButtonText, setSubmitButtonText] = useState('입력');
 
 	const { data: session } = useSession();
 
@@ -42,10 +43,6 @@ const SubmitForm: React.FC = () => {
 		!formData.payment ||
 		!formData.note;
 
-	const onNameButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-		formData.actions.setName(event.currentTarget.value as Name);
-	};
-
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if (isFormIncomplete || isSubmitting) {
@@ -53,16 +50,34 @@ const SubmitForm: React.FC = () => {
 		}
 
 		setIsSubmitting(true);
+		setSubmitButtonText('입력중...');
 
 		const { actions, ...data } = formData;
-		const response = await fetch('/api/sheets', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data),
-		});
-		const responseData = await response.json();
+		try {
+			const response = await fetch('/api/sheets', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			});
+			const responseData = await response.json();
+			if (responseData.success) {
+				setSubmitButtonText('입력완료!');
+			}
+		} catch (error) {
+			console.error(error);
+			setSubmitButtonText('입력실패!');
+		} finally {
+			// 1.5초 후에 '입력'으로 변경
+			setTimeout(() => {
+				setSubmitButtonText('입력');
+			}, 1500);
+			// 모바일 기기 진동
+			if (navigator.vibrate) {
+				navigator.vibrate(300);
+			}
+		}
 
 		// 효과음 재생 주석처리
 		// const sound = new Audio('/zelda_puzzle_solved.mp3');
@@ -73,47 +88,18 @@ const SubmitForm: React.FC = () => {
 	return (
 		<>
 			<form className="space-y-6" onSubmit={onSubmit}>
-				<NameButtonGroup
-					selectedName={formData.name}
-					onNameButtonClick={onNameButtonClick}
-				/>
-				<DateInput
-					value={formData.date as number}
-					onChange={formData.actions.setDate}
-				/>
-				<ContentInput
-					value={formData.content as string}
-					onChange={formData.actions.setContent}
-				/>
-				<PriceInput
-					value={formData.price as number}
-					onChange={formData.actions.setPrice}
-				/>
-				<CategoryButtonGroup
-					selectedCategory={formData.category as Category}
-					onCategoryButtonClick={e =>
-						formData.actions.setCategory(
-							e.currentTarget.value as Category,
-						)
-					}
-				/>
-				<PaymentButtonGroup
-					selectedPayment={formData.payment as Payment}
-					onPaymentButtonClick={e =>
-						formData.actions.setPayment(
-							e.currentTarget.value as Payment,
-						)
-					}
-				/>
-				<NoteInput
-					value={formData.note as string}
-					onChange={formData.actions.setNote}
-				/>
+				<NameButtonGroup />
+				<DateInput />
+				<ContentInput />
+				<PriceInput />
+				<CategoryButtonGroup />
+				<PaymentButtonGroup />
+				<NoteInput />
 				<SubmitButton
 					isSubmitting={isSubmitting}
 					isFormIncomplete={isFormIncomplete}
 				>
-					{isSubmitting ? '입력중...' : '입력'}
+					{submitButtonText}
 				</SubmitButton>
 			</form>
 		</>

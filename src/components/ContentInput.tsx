@@ -1,13 +1,13 @@
-import React, { FC, ChangeEvent } from 'react';
+import useFormStore from '@/hooks/useFormStore';
 
-interface ContentInputProps {
-	value: string;
-	onChange: (value: string) => void;
-}
+const ContentInput: React.FC = () => {
+	const { content, setContent } = useFormStore(state => ({
+		content: state.content,
+		setContent: state.actions.setContent,
+	}));
 
-const ContentInput: FC<ContentInputProps> = ({ value, onChange }) => {
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		onChange(e.target.value);
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setContent(e.target.value);
 	};
 
 	return (
@@ -22,7 +22,7 @@ const ContentInput: FC<ContentInputProps> = ({ value, onChange }) => {
 				required
 				id="content"
 				type="text"
-				value={value}
+				value={content}
 				onChange={handleChange}
 				className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 			/>

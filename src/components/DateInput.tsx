@@ -1,14 +1,20 @@
-import React, { ChangeEvent, FC } from 'react';
-import { convertToSerial, convertToDate } from '@/utils/date';
+import useFormStore from '@/hooks/useFormStore';
+import { convertToSerial, getTodayDateString } from '@/utils/date';
+import React from 'react';
 
-interface DateInputProps {
-	value: number;
-	onChange: (value: number) => void;
-}
+const DateInput: React.FC = () => {
+	const [viewDate, setViewDate] = React.useState<string>(
+		getTodayDateString(),
+	);
 
-const DateInput: FC<DateInputProps> = ({ value, onChange }) => {
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		onChange(convertToSerial(e.target.value) as number);
+	const { setDate } = useFormStore(state => ({
+		setDate: state.actions.setDate,
+	}));
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const selectedDate = e.target.value;
+		setViewDate(selectedDate);
+		setDate(convertToSerial(selectedDate));
 	};
 
 	return (
@@ -23,7 +29,9 @@ const DateInput: FC<DateInputProps> = ({ value, onChange }) => {
 				required
 				id="date"
 				type="date"
-				value={convertToDate(value).toISOString().slice(0, 10)}
+				min="1994-12-09"
+				max="9999-12-31"
+				value={viewDate}
 				onChange={handleChange}
 				className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 			/>

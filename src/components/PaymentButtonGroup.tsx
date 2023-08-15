@@ -1,38 +1,38 @@
-import { Payment, paymentMap } from '@/hooks/useFormStore';
+import useFormStore, { Payment, paymentMap } from '@/hooks/useFormStore';
 
-interface PaymentSelectProps {
-	selectedPayment: Payment;
-	onPaymentButtonClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-}
-
-const PaymentButtonGroup: React.FC<PaymentSelectProps> = ({
-	selectedPayment,
-	onPaymentButtonClick,
-}) => {
+const PaymentButtonGroup: React.FC = () => {
 	const paymentList: Payment[] = Object.values(paymentMap);
+
+	const { payment, setPayment } = useFormStore(state => ({
+		payment: state.payment,
+		setPayment: state.actions.setPayment,
+	}));
+
+	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		setPayment(event.currentTarget.value as Payment);
+	};
 
 	return (
 		<>
 			<label className="block text-sm font-medium text-gray-700">
 				결제수단
-				{/* : {selectedPayment} */}
 			</label>
 			<div className="grid grid-cols-4 gap-4">
-				{paymentList.map(payment => (
-					<div key={payment}>
+				{paymentList.map(paymentElement => (
+					<div key={paymentElement}>
 						<button
 							type="button"
-							value={payment}
+							value={paymentElement}
 							className={`w-full py-2 rounded-lg shadow  ${
-								selectedPayment !== payment
+								payment !== paymentElement
 									? 'bg-blue-200'
 									: 'bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 text-white'
 							}`}
-							onClick={onPaymentButtonClick}
+							onClick={handleClick}
 						>
-							{selectedPayment !== payment
-								? payment.substring(0, 2)
-								: payment.substring(2)}
+							{payment !== paymentElement
+								? paymentElement.substring(0, 2)
+								: paymentElement.substring(2)}
 						</button>
 					</div>
 				))}

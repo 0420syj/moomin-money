@@ -1,11 +1,15 @@
-import React from 'react';
+import useFormStore from '@/hooks/useFormStore';
 
-interface NoteInputProps {
-	value: string;
-	onChange: (value: string) => void;
-}
+const NoteInput: React.FC = () => {
+	const { note, setNote } = useFormStore(state => ({
+		note: state.note,
+		setNote: state.actions.setNote,
+	}));
 
-const NoteInput: React.FC<NoteInputProps> = ({ value, onChange }) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setNote(e.target.value);
+	};
+
 	return (
 		<div>
 			<label
@@ -18,8 +22,8 @@ const NoteInput: React.FC<NoteInputProps> = ({ value, onChange }) => {
 				required
 				id="note"
 				type="text"
-				value={value}
-				onChange={e => onChange(e.target.value)}
+				value={note}
+				onChange={handleChange}
 				className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 			/>
 		</div>
