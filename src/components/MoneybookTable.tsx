@@ -3,7 +3,7 @@
 import { convertToDate, getAllSerialDatesByMonth } from '@/utils/date';
 import { useEffect, useState } from 'react';
 import NameButtonGroup from '@/components/NameButtonGroup';
-import useFormStore, { Name } from '@/hooks/useFormStore';
+import useFormStore from '@/hooks/useFormStore';
 
 type DataType = {
 	values: string[][];

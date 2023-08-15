@@ -17,15 +17,16 @@ const allowedAccounts =
 
 const SubmitForm: React.FC = () => {
 	const formData = useFormStore();
+	const [submitButtonText, setSubmitButtonText] = useState('입력');
 
 	const { data: session } = useSession();
 
 	useEffect(() => {
 		if (session && session.user) {
 			const { email } = session.user;
-			if (email === allowedAccounts[1]) {
+			if (email === allowedAccounts[0]) {
 				formData.actions.setName('wanny');
-			} else if (email === allowedAccounts[0]) {
+			} else if (email === allowedAccounts[1]) {
 				formData.actions.setName('moomin');
 			}
 		}
@@ -49,16 +50,34 @@ const SubmitForm: React.FC = () => {
 		}
 
 		setIsSubmitting(true);
+		setSubmitButtonText('입력중...');
 
 		const { actions, ...data } = formData;
-		const response = await fetch('/api/sheets', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data),
-		});
-		const responseData = await response.json();
+		try {
+			const response = await fetch('/api/sheets', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			});
+			const responseData = await response.json();
+			if (responseData.success) {
+				setSubmitButtonText('입력완료!');
+			}
+		} catch (error) {
+			console.error(error);
+			setSubmitButtonText('입력실패!');
+		} finally {
+			// 1.5초 후에 '입력'으로 변경
+			setTimeout(() => {
+				setSubmitButtonText('입력');
+			}, 1500);
+			// 모바일 기기 진동
+			if (navigator.vibrate) {
+				navigator.vibrate(300);
+			}
+		}
 
 		// 효과음 재생 주석처리
 		// const sound = new Audio('/zelda_puzzle_solved.mp3');
@@ -80,7 +99,7 @@ const SubmitForm: React.FC = () => {
 					isSubmitting={isSubmitting}
 					isFormIncomplete={isFormIncomplete}
 				>
-					{isSubmitting ? '입력중...' : '입력'}
+					{submitButtonText}
 				</SubmitButton>
 			</form>
 		</>
