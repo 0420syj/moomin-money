@@ -1,19 +1,20 @@
-import React, { FC, ChangeEvent } from 'react';
+import useFormStore from '@/hooks/useFormStore';
+import React from 'react';
 
-interface PriceInputProps {
-	value: number;
-	onChange: (value: number) => void;
-}
+const PriceInput: React.FC = () => {
+	const { price, setPrice } = useFormStore(state => ({
+		price: state.price,
+		setPrice: state.actions.setPrice,
+	}));
 
-const PriceInput: FC<PriceInputProps> = ({ value, onChange }) => {
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const priceValue = Number(e.target.value.replace(/,/g, ''));
 
 		if (isNaN(priceValue)) {
 			return;
 		}
 
-		onChange(priceValue);
+		setPrice(priceValue);
 	};
 
 	return (
@@ -28,7 +29,7 @@ const PriceInput: FC<PriceInputProps> = ({ value, onChange }) => {
 				required
 				id="price"
 				type="text"
-				value={value <= 0 ? '' : value.toLocaleString()}
+				value={price <= 0 ? '' : price.toLocaleString()}
 				onChange={handleChange}
 				autoComplete="off"
 				inputMode="numeric"

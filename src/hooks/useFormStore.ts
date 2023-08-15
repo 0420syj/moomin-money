@@ -30,11 +30,11 @@ export const paymentMap = {
 
 export type Name = 'wanny' | 'moomin';
 export type SerialDate = number;
-export type Content = String;
-export type Price = Number;
+export type Content = string;
+export type Price = number;
 export type Category = (typeof categoryMap)[keyof typeof categoryMap];
 export type Payment = (typeof paymentMap)[keyof typeof paymentMap];
-export type Note = String;
+export type Note = string;
 
 export type FormState = {
 	name: Name;

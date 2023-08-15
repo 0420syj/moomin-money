@@ -78,14 +78,8 @@ const SubmitForm: React.FC = () => {
 					onNameButtonClick={onNameButtonClick}
 				/>
 				<DateInput />
-				<ContentInput
-					value={formData.content as string}
-					onChange={formData.actions.setContent}
-				/>
-				<PriceInput
-					value={formData.price as number}
-					onChange={formData.actions.setPrice}
-				/>
+				<ContentInput />
+				<PriceInput />
 				<CategoryButtonGroup
 					selectedCategory={formData.category as Category}
 					onCategoryButtonClick={e =>
@@ -102,10 +96,7 @@ const SubmitForm: React.FC = () => {
 						)
 					}
 				/>
-				<NoteInput
-					value={formData.note as string}
-					onChange={formData.actions.setNote}
-				/>
+				<NoteInput />
 				<SubmitButton
 					isSubmitting={isSubmitting}
 					isFormIncomplete={isFormIncomplete}

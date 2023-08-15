@@ -1,15 +1,17 @@
 import useFormStore from '@/hooks/useFormStore';
 import { convertToSerial, getTodayDateString } from '@/utils/date';
-import React, { FC, ChangeEvent, useState } from 'react';
+import React from 'react';
 
-const DateInput: FC = () => {
-	const today: string = getTodayDateString();
+const DateInput: React.FC = () => {
+	const [viewDate, setViewDate] = React.useState<string>(
+		getTodayDateString(),
+	);
+
 	const { setDate } = useFormStore(state => ({
 		setDate: state.actions.setDate,
 	}));
-	const [viewDate, setViewDate] = useState<string>(today);
 
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const selectedDate = e.target.value;
 		setViewDate(selectedDate);
 		setDate(convertToSerial(selectedDate));
