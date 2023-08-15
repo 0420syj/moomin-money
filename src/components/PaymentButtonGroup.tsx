@@ -10,6 +10,9 @@ const PaymentButtonGroup: React.FC = () => {
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setPayment(event.currentTarget.value as Payment);
+		if (navigator.vibrate) {
+			navigator.vibrate(15);
+		}
 	};
 
 	return (

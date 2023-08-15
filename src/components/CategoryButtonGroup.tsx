@@ -10,6 +10,9 @@ const CategoryButtonGroup: React.FC = () => {
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setCategory(event.currentTarget.value as Category);
+		if (navigator.vibrate) {
+			navigator.vibrate(15);
+		}
 	};
 
 	return (
