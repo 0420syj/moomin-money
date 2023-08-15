@@ -29,7 +29,7 @@ export const paymentMap = {
 } as const;
 
 export type Name = 'wanny' | 'moomin';
-export type SerialDate = Number;
+export type SerialDate = number;
 export type Content = String;
 export type Price = Number;
 export type Category = (typeof categoryMap)[keyof typeof categoryMap];

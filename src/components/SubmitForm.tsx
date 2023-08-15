@@ -77,10 +77,7 @@ const SubmitForm: React.FC = () => {
 					selectedName={formData.name}
 					onNameButtonClick={onNameButtonClick}
 				/>
-				<DateInput
-					value={formData.date as number}
-					onChange={formData.actions.setDate}
-				/>
+				<DateInput />
 				<ContentInput
 					value={formData.content as string}
 					onChange={formData.actions.setContent}
