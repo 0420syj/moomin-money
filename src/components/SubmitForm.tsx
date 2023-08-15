@@ -62,21 +62,27 @@ const SubmitForm: React.FC = () => {
 				body: JSON.stringify(data),
 			});
 			const responseData = await response.json();
-			if (responseData.success) {
+			if (responseData.length) {
 				setSubmitButtonText('입력완료!');
+				// 성공시 짧고 세게 진동
+				if (navigator.vibrate) {
+					navigator.vibrate([100, 50, 100]);
+				}
 			}
 		} catch (error) {
 			console.error(error);
 			setSubmitButtonText('입력실패!');
+			// 실패시 길고 약하게 진동
+			if (navigator.vibrate) {
+				navigator.vibrate([300, 100, 300, 100, 300]);
+			}
 		} finally {
-			// 1.5초 후에 '입력'으로 변경
 			setTimeout(() => {
 				setSubmitButtonText('입력');
+				if (navigator.vibrate) {
+					navigator.vibrate(50);
+				}
 			}, 1500);
-			// 모바일 기기 진동
-			if (navigator.vibrate) {
-				navigator.vibrate(300);
-			}
 		}
 
 		// 효과음 재생 주석처리
