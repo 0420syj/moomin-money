@@ -8,6 +8,9 @@ const NameButtonGroup: React.FC = () => {
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setName(event.currentTarget.value as Name);
+		if (navigator.vibrate) {
+			navigator.vibrate(15);
+		}
 	};
 
 	const nameLeftButtonClass = (nameParam: string) =>
