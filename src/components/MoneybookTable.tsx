@@ -14,10 +14,6 @@ const MoneybookTable = () => {
 
 	const formData = useFormStore();
 
-	const onNameButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-		formData.actions.setName(event.currentTarget.value as Name);
-	};
-
 	const sheetNameMap = {
 		wanny: process.env.NEXT_PUBLIC_GOOGLE_WANNY_SHEET_NAME as string,
 		moomin: process.env.NEXT_PUBLIC_GOOGLE_MOOMIN_SHEET_NAME as string,

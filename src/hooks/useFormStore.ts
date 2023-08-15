@@ -2,6 +2,11 @@ import { convertToSerial, getTodayDateString } from '@/utils/date';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+export const nameMap = {
+	wanny: 'wanny',
+	moomin: 'moomin',
+} as const;
+
 export const categoryMap = {
 	House: '🏠 주거',
 	Life: '🧺 생활',
@@ -28,7 +33,7 @@ export const paymentMap = {
 	Installment: '➗ 할부',
 } as const;
 
-export type Name = 'wanny' | 'moomin';
+export type Name = (typeof nameMap)[keyof typeof nameMap];
 export type SerialDate = number;
 export type Content = string;
 export type Price = number;
