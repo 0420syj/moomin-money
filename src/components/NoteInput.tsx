@@ -1,5 +1,4 @@
 import useFormStore from '@/hooks/useFormStore';
-import React from 'react';
 
 const NoteInput: React.FC = () => {
 	const { note, setNote } = useFormStore(state => ({

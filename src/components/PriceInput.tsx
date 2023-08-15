@@ -1,5 +1,4 @@
 import useFormStore from '@/hooks/useFormStore';
-import React from 'react';
 
 const PriceInput: React.FC = () => {
 	const { price, setPrice } = useFormStore(state => ({

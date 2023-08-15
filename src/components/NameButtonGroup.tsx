@@ -1,5 +1,4 @@
 import useFormStore, { Name } from '@/hooks/useFormStore';
-import React from 'react';
 
 const NameButtonGroup: React.FC = () => {
 	const { name, setName } = useFormStore(state => ({
