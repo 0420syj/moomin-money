@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import useFormStore, { Category, Name, Payment } from '@/hooks/useFormStore';
+import useFormStore from '@/hooks/useFormStore';
 import NameButtonGroup from '@/components/NameButtonGroup';
 import SubmitButton from '@/components/SubmitButton';
 import DateInput from '@/components/DateInput';
@@ -23,9 +23,9 @@ const SubmitForm: React.FC = () => {
 	useEffect(() => {
 		if (session && session.user) {
 			const { email } = session.user;
-			if (email === allowedAccounts[0]) {
+			if (email === allowedAccounts[1]) {
 				formData.actions.setName('wanny');
-			} else if (email === allowedAccounts[1]) {
+			} else if (email === allowedAccounts[0]) {
 				formData.actions.setName('moomin');
 			}
 		}
@@ -41,10 +41,6 @@ const SubmitForm: React.FC = () => {
 		!formData.category ||
 		!formData.payment ||
 		!formData.note;
-
-	const onNameButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-		formData.actions.setName(event.currentTarget.value as Name);
-	};
 
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -73,29 +69,12 @@ const SubmitForm: React.FC = () => {
 	return (
 		<>
 			<form className="space-y-6" onSubmit={onSubmit}>
-				<NameButtonGroup
-					selectedName={formData.name}
-					onNameButtonClick={onNameButtonClick}
-				/>
+				<NameButtonGroup />
 				<DateInput />
 				<ContentInput />
 				<PriceInput />
-				<CategoryButtonGroup
-					selectedCategory={formData.category as Category}
-					onCategoryButtonClick={e =>
-						formData.actions.setCategory(
-							e.currentTarget.value as Category,
-						)
-					}
-				/>
-				<PaymentButtonGroup
-					selectedPayment={formData.payment as Payment}
-					onPaymentButtonClick={e =>
-						formData.actions.setPayment(
-							e.currentTarget.value as Payment,
-						)
-					}
-				/>
+				<CategoryButtonGroup />
+				<PaymentButtonGroup />
 				<NoteInput />
 				<SubmitButton
 					isSubmitting={isSubmitting}

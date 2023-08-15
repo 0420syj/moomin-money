@@ -2,7 +2,7 @@
 
 import { convertToDate, getAllSerialDatesByMonth } from '@/utils/date';
 import { useEffect, useState } from 'react';
-import ButtonGroup from '@/components/NameButtonGroup';
+import NameButtonGroup from '@/components/NameButtonGroup';
 import useFormStore, { Name } from '@/hooks/useFormStore';
 
 type DataType = {
@@ -50,10 +50,7 @@ const MoneybookTable = () => {
 
 	return (
 		<>
-			<ButtonGroup
-				selectedName={formData.name}
-				onNameButtonClick={onNameButtonClick}
-			/>
+			<NameButtonGroup />
 			{data ? (
 				<>
 					<table>
