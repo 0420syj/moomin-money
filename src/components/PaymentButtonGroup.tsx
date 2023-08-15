@@ -28,8 +28,8 @@ const PaymentButtonGroup: React.FC = () => {
 							value={paymentElement}
 							className={`w-full py-2 rounded-lg shadow  ${
 								payment !== paymentElement
-									? 'bg-blue-200'
-									: 'bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 text-white'
+									? 'bg-blue-200 hover:bg-blue-300 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 text-gray-700'
+									: 'bg-[#024280] focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 text-white'
 							}`}
 							onClick={handleClick}
 						>

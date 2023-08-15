@@ -93,7 +93,7 @@ const SubmitForm: React.FC = () => {
 
 	return (
 		<>
-			<form className="space-y-6" onSubmit={onSubmit}>
+			<form className="space-y-4" onSubmit={onSubmit}>
 				<NameButtonGroup />
 				<DateInput />
 				<ContentInput />

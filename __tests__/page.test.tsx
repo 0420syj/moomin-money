@@ -25,7 +25,7 @@ describe('Home Page', () => {
 
 	it('should init 🐶 빵떡 as initial activated button', async () => {
 		const activatedButton = await screen.findByText('🐶 빵떡');
-		expect(activatedButton).toHaveClass('bg-blue-500');
+		expect(activatedButton).toHaveClass('bg-[#024280]');
 	});
 
 	it('should init 🏠 주거 as initial category value', async () => {
@@ -44,7 +44,7 @@ describe('Home Page', () => {
 
 		await userEvent.click(deactivatedButton);
 
-		expect(activatedButton).not.toHaveClass('bg-blue-500');
-		expect(deactivatedButton).toHaveClass('bg-blue-500');
+		expect(activatedButton).not.toHaveClass('bg-[#024280]');
+		expect(deactivatedButton).toHaveClass('bg-[#024280]');
 	});
 });
