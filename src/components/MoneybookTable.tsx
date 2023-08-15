@@ -48,36 +48,49 @@ const MoneybookTable = () => {
 		<>
 			<NameButtonGroup />
 			{data ? (
-				<>
-					<table>
+				<div className="overflow-x-auto">
+					<table className="mt-4 table-auto">
 						<thead>
 							<tr>
-								<th>날짜</th>
-								<th>내용</th>
-								<th>금액</th>
-								<th>카테고리</th>
-								<th>결제수단</th>
-								<th>비고</th>
+								<th className="whitespace-nowrap">날짜</th>
+								<th className="whitespace-nowrap">내용</th>
+								<th className="whitespace-nowrap">금액</th>
+								<th className="whitespace-nowrap">카테고리</th>
+								<th className="whitespace-nowrap">결제수단</th>
+								<th className="whitespace-nowrap">비고</th>
 							</tr>
 						</thead>
 						<tbody>
 							{filteredData?.map((row, index) => (
-								<tr key={index}>
-									<td>
+								<tr
+									key={index}
+									className="even:bg-gray-200 odd:bg-white"
+								>
+									<td className="whitespace-nowrap">
 										{convertToDate(
 											Number(row[0]),
 										).toLocaleDateString()}
 									</td>
-									<td>{row[1]}</td>
-									<td>{Number(row[2]).toLocaleString()}원</td>
-									<td>{row[3]}</td>
-									<td>{row[4]}</td>
-									<td>{row[5]}</td>
+									<td className="whitespace-nowrap">
+										{row[1]}
+									</td>
+									<td className="whitespace-nowrap">
+										{Number(row[2]).toLocaleString()}원
+									</td>
+									<td className="whitespace-nowrap">
+										{row[3]}
+									</td>
+									<td className="whitespace-nowrap">
+										{row[4]}
+									</td>
+									<td className="whitespace-nowrap">
+										{row[5]}
+									</td>
 								</tr>
 							))}
 						</tbody>
 					</table>
-				</>
+				</div>
 			) : (
 				<p>Loading...</p>
 			)}
