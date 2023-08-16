@@ -64,4 +64,48 @@ export class GoogleSheetsService {
 			console.error(err);
 		}
 	}
+
+	async putSheetValues(
+		spreadsheetId: string,
+		range: string,
+		values: any[][],
+		/*
+		"values": [
+			[
+			null,
+			null,
+			100000000,
+			null,
+			null,
+			""
+			]
+		]
+
+		null : 해당 셀은 변경하지 않음
+		"" : 해당 셀은 빈 값으로 변경
+		*/
+	) {
+		const request = {
+			spreadsheetId: spreadsheetId,
+			range: range,
+			includeValuesInResponse: true,
+			responseDateTimeRenderOption: 'FORMATTED_STRING',
+			responseValueRenderOption: 'FORMATTED_VALUE',
+			valueInputOption: 'RAW',
+			requestBody: {
+				majorDimension: 'ROWS',
+				range: '',
+				values: values,
+			},
+		};
+
+		try {
+			const response = await this.sheets.spreadsheets.values.update(
+				request,
+			);
+			return response.data.updatedData?.values;
+		} catch (err) {
+			console.error(err);
+		}
+	}
 }
