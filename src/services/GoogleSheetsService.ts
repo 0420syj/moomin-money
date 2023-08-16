@@ -108,4 +108,36 @@ export class GoogleSheetsService {
 			console.error(err);
 		}
 	}
+
+	async deleteSheetValues(
+		spreadsheetId: string,
+		sheetId: number, // gid=0, 추후 env 변수에 추가
+		rowIndex: number,
+	) {
+		// 참고 : https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/batchUpdate?hl=ko
+		const request = {
+			spreadsheetId: spreadsheetId,
+			requests: [
+				{
+					deleteDimension: {
+						range: {
+							sheetId: sheetId,
+							dimension: 'ROWS',
+							startIndex: rowIndex - 1,
+							endIndex: rowIndex,
+						},
+					},
+				},
+			],
+		};
+
+		try {
+			const response = await this.sheets.spreadsheets.values.batchUpdate(
+				request,
+			);
+			return response.data;
+		} catch (err) {
+			console.error(err);
+		}
+	}
 }
