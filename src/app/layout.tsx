@@ -8,6 +8,7 @@ import { Metadata } from 'next';
 
 const metadata: Metadata = {
 	title: '빵빚무 가계부',
+	themeColor: '#024280',
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
