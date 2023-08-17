@@ -13,9 +13,7 @@ const config = {
 
 	testEnvironment: 'jest-environment-jsdom',
 	setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-	collectCoverageFrom: [
-		'./src/app/**/*.{js,jsx,ts,tsx}',
-	],
+	collectCoverageFrom: ['./src/app/**/*.{js,jsx,ts,tsx}'],
 	moduleNameMapper: {
 		// If your project is using Module Path Aliases, you will need to configure Jest to resolve the imports by matching the paths option
 		// https://jestjs.io/docs/configuration#modulenamemapper-objectstring-string--arraystring

@@ -1,7 +1,7 @@
 'use client';
 
+import { useQuery } from 'react-query';
 import { convertToDate, getAllSerialDatesByMonth } from '@/utils/date';
-import { useEffect, useState } from 'react';
 import NameButtonGroup from '@/components/NameButtonGroup';
 import useFormStore from '@/hooks/useFormStore';
 
@@ -9,9 +9,12 @@ type DataType = {
 	values: string[][];
 };
 
-const MoneybookTable = () => {
-	const [data, setData] = useState<DataType | null>(null);
+const fetchSheetData = (sheetName: string) =>
+	fetch(`/api/sheets/${sheetName}`)
+		.then(response => response.json())
+		.catch(error => console.error(error));
 
+const MoneybookTable = () => {
 	const formData = useFormStore();
 
 	const sheetNameMap = {
@@ -19,14 +22,10 @@ const MoneybookTable = () => {
 		moomin: process.env.NEXT_PUBLIC_GOOGLE_MOOMIN_SHEET_NAME as string,
 	};
 
-	useEffect(() => {
-		setData(null);
-
-		fetch(`/api/sheets/${sheetNameMap[formData.name]}`)
-			.then(response => response.json())
-			.then((data: DataType) => setData(data))
-			.catch(error => console.error(error));
-	}, [formData.name]);
+	const { data, isLoading, isError } = useQuery<DataType>(
+		['sheetData', sheetNameMap[formData.name]],
+		() => fetchSheetData(sheetNameMap[formData.name]),
+	);
 
 	const todayYear = new Date().getFullYear();
 	const todayMonth = new Date().getMonth() + 1;
@@ -47,7 +46,11 @@ const MoneybookTable = () => {
 	return (
 		<>
 			<NameButtonGroup />
-			{data ? (
+			{isLoading ? (
+				<p>Loading...</p>
+			) : isError ? (
+				<p>An error occurred...</p>
+			) : (
 				<div className="overflow-x-auto">
 					<table className="mt-4 table-auto">
 						<thead>
@@ -91,8 +94,6 @@ const MoneybookTable = () => {
 						</tbody>
 					</table>
 				</div>
-			) : (
-				<p>Loading...</p>
 			)}
 		</>
 	);

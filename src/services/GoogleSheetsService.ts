@@ -64,4 +64,80 @@ export class GoogleSheetsService {
 			console.error(err);
 		}
 	}
+
+	async putSheetValues(
+		spreadsheetId: string,
+		range: string,
+		values: any[][],
+		/*
+		"values": [
+			[
+			null,
+			null,
+			100000000,
+			null,
+			null,
+			""
+			]
+		]
+
+		null : 해당 셀은 변경하지 않음
+		"" : 해당 셀은 빈 값으로 변경
+		*/
+	) {
+		const request = {
+			spreadsheetId: spreadsheetId,
+			range: range,
+			includeValuesInResponse: true,
+			responseDateTimeRenderOption: 'FORMATTED_STRING',
+			responseValueRenderOption: 'FORMATTED_VALUE',
+			valueInputOption: 'RAW',
+			requestBody: {
+				majorDimension: 'ROWS',
+				range: '',
+				values: values,
+			},
+		};
+
+		try {
+			const response = await this.sheets.spreadsheets.values.update(
+				request,
+			);
+			return response.data.updatedData?.values;
+		} catch (err) {
+			console.error(err);
+		}
+	}
+
+	async deleteSheetValues(
+		spreadsheetId: string,
+		sheetId: number, // gid=0, 추후 env 변수에 추가
+		rowIndex: number,
+	) {
+		// 참고 : https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/batchUpdate?hl=ko
+		const request = {
+			spreadsheetId: spreadsheetId,
+			requests: [
+				{
+					deleteDimension: {
+						range: {
+							sheetId: sheetId,
+							dimension: 'ROWS',
+							startIndex: rowIndex - 1,
+							endIndex: rowIndex,
+						},
+					},
+				},
+			],
+		};
+
+		try {
+			const response = await this.sheets.spreadsheets.values.batchUpdate(
+				request,
+			);
+			return response.data;
+		} catch (err) {
+			console.error(err);
+		}
+	}
 }
