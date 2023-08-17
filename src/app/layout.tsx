@@ -9,6 +9,7 @@ import { Metadata } from 'next';
 const metadata: Metadata = {
 	title: '빵빚무 가계부',
 	themeColor: '#024280',
+	manifest: '/manifest.json',
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {

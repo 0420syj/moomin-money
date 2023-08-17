@@ -30,6 +30,7 @@ const SubmitForm: React.FC = () => {
 				formData.actions.setName('moomin');
 			}
 		}
+		console.log('session', session);
 	}, [session]);
 
 	const [isSubmitting, setIsSubmitting] = useState(false);
