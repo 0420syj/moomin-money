@@ -68,7 +68,7 @@ type FormAction = {
 	getPayment: () => Payment;
 	getNote: () => Note;
 
-	isFormValid: () => boolean;
+	isFormIncomplete: () => boolean;
 
 	// 현재 미사용
 	reset: () => void;
