@@ -22,7 +22,7 @@ const Header = () => {
 					</li>
 					<li>
 						<Link href="/moneybook" className="hover:underline">
-							최근 2개월 소비
+							소비내역
 						</Link>
 					</li>
 				</ul>
