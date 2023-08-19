@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useFormStore from '@/hooks/useFormStore';
 import NameButtonGroup from '@/components/NameButtonGroup';
 import SubmitButton from '@/components/SubmitButton';
@@ -10,50 +10,54 @@ import PriceInput from '@/components/PriceInput';
 import NoteInput from '@/components/NoteInput';
 import CategoryButtonGroup from '@/components/CategoryButtonGroup';
 import PaymentButtonGroup from '@/components/PaymentButtonGroup';
-import { useSession } from 'next-auth/react';
-
-const allowedAccounts =
-	process.env.NEXT_PUBLIC_ALLOWED_ACCOUNTS?.split(',') ?? [];
 
 const SubmitForm: React.FC = () => {
-	const formData = useFormStore();
+	const {
+		setName,
+		isFormIncomplete,
+
+		getName,
+		getDate,
+		getContent,
+		getPrice,
+		getNote,
+		getCategory,
+		getPayment,
+	} = useFormStore(state => ({
+		setName: state.actions.setName,
+		isFormIncomplete: state.actions.isFormIncomplete,
+
+		getName: state.actions.getName,
+		getDate: state.actions.getDate,
+		getContent: state.actions.getContent,
+		getPrice: state.actions.getPrice,
+		getNote: state.actions.getNote,
+		getCategory: state.actions.getCategory,
+		getPayment: state.actions.getPayment,
+	}));
+
 	const [submitButtonText, setSubmitButtonText] = useState('입력');
-
-	const { data: session } = useSession();
-
-	useEffect(() => {
-		if (session && session.user) {
-			const { email } = session.user;
-			if (email === allowedAccounts[0]) {
-				formData.actions.setName('wanny');
-			} else if (email === allowedAccounts[1]) {
-				formData.actions.setName('moomin');
-			}
-		}
-		console.log('session', session);
-	}, [session]);
-
 	const [isSubmitting, setIsSubmitting] = useState(false);
-
-	const isFormIncomplete =
-		!formData.name ||
-		!formData.date ||
-		!formData.content ||
-		!formData.price ||
-		!formData.category ||
-		!formData.payment ||
-		!formData.note;
 
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		if (isFormIncomplete || isSubmitting) {
+		if (isFormIncomplete() || isSubmitting) {
 			return;
 		}
 
 		setIsSubmitting(true);
 		setSubmitButtonText('입력중...');
 
-		const { actions, ...data } = formData;
+		const data = {
+			name: getName(),
+			date: getDate(),
+			content: getContent(),
+			price: getPrice(),
+			category: getCategory(),
+			payment: getPayment(),
+			note: getNote(),
+		};
+
 		try {
 			const response = await fetch('/api/sheets', {
 				method: 'POST',
@@ -102,10 +106,7 @@ const SubmitForm: React.FC = () => {
 				<CategoryButtonGroup />
 				<PaymentButtonGroup />
 				<NoteInput />
-				<SubmitButton
-					isSubmitting={isSubmitting}
-					isFormIncomplete={isFormIncomplete}
-				>
+				<SubmitButton isSubmitting={isSubmitting}>
 					{submitButtonText}
 				</SubmitButton>
 			</form>

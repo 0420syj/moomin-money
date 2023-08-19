@@ -41,7 +41,7 @@ const MoneybookTable = () => {
 			serialDateList.includes(Number(row[0])) ||
 			lastMonthSerialDateList.includes(Number(row[0])),
 	);
-	filteredData?.sort((a, b) => Number(a[0]) - Number(b[0]));
+	filteredData?.sort((a, b) => Number(b[0]) - Number(a[0]));
 
 	return (
 		<>
@@ -52,45 +52,64 @@ const MoneybookTable = () => {
 				<p>An error occurred...</p>
 			) : (
 				<div className="overflow-x-auto">
-					<table className="mt-4 table-auto">
+					<table className="w-full mt-4 table-auto">
 						<thead>
 							<tr>
-								<th className="whitespace-nowrap">날짜</th>
-								<th className="whitespace-nowrap">내용</th>
-								<th className="whitespace-nowrap">금액</th>
-								<th className="whitespace-nowrap">카테고리</th>
-								<th className="whitespace-nowrap">결제수단</th>
-								<th className="whitespace-nowrap">비고</th>
+								<th className="px-2 py-1 whitespace-nowrap">
+									날짜
+								</th>
+								<th className="px-2 py-1 whitespace-nowrap">
+									내용
+								</th>
+								<th className="px-2 py-1 whitespace-nowrap">
+									금액
+								</th>
+								<th className="px-2 py-1 whitespace-nowrap">
+									카테고리
+								</th>
+								<th className="px-2 py-1 whitespace-nowrap">
+									결제수단
+								</th>
+								<th className="px-2 py-1 whitespace-nowrap">
+									비고
+								</th>
 							</tr>
 						</thead>
 						<tbody>
-							{filteredData?.map((row, index) => (
-								<tr
-									key={index}
-									className="even:bg-gray-200 odd:bg-white"
-								>
-									<td className="whitespace-nowrap">
-										{convertToDate(
-											Number(row[0]),
-										).toLocaleDateString()}
-									</td>
-									<td className="whitespace-nowrap">
-										{row[1]}
-									</td>
-									<td className="whitespace-nowrap">
-										{Number(row[2]).toLocaleString()}원
-									</td>
-									<td className="whitespace-nowrap">
-										{row[3]}
-									</td>
-									<td className="whitespace-nowrap">
-										{row[4]}
-									</td>
-									<td className="whitespace-nowrap">
-										{row[5]}
-									</td>
-								</tr>
-							))}
+							{filteredData?.map((row, index) => {
+								const rowDate = convertToDate(Number(row[0]));
+								const isFutureDate = rowDate > new Date();
+
+								return (
+									<tr
+										key={index}
+										className={`even:bg-gray-200 odd:bg-white${
+											isFutureDate
+												? ' text-slate-300'
+												: ''
+										}`}
+									>
+										<td className="px-2 py-1 whitespace-nowrap">
+											{rowDate.toLocaleDateString()}
+										</td>
+										<td className="px-2 py-1 whitespace-nowrap">
+											{row[1].replace(/[\u0008]/g, '')}
+										</td>
+										<td className="px-2 py-1 whitespace-nowrap">
+											{Number(row[2]).toLocaleString()}원
+										</td>
+										<td className="px-2 py-1 whitespace-nowrap">
+											{row[3]}
+										</td>
+										<td className="px-2 py-1 whitespace-nowrap">
+											{row[4]}
+										</td>
+										<td className="px-2 py-1 whitespace-nowrap">
+											{row[5].replace(/[\u0008]/g, '')}
+										</td>
+									</tr>
+								);
+							})}
 						</tbody>
 					</table>
 				</div>

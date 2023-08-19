@@ -1,10 +1,31 @@
 import useFormStore, { Name } from '@/hooks/useFormStore';
+import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
+
+const allowedAccounts: string[] =
+	process.env.NEXT_PUBLIC_ALLOWED_ACCOUNTS?.split(',') ?? [];
+
+const accountMap: { [key: string]: Name } = {
+	[allowedAccounts[0]]: 'wanny',
+	[allowedAccounts[1]]: 'moomin',
+};
 
 const NameButtonGroup: React.FC = () => {
 	const { name, setName } = useFormStore(state => ({
 		name: state.name,
 		setName: state.actions.setName,
 	}));
+
+	const { user } = useSession()?.data || {};
+
+	useEffect(() => {
+		if (user) {
+			const { email } = user as { email: string };
+			if (allowedAccounts.includes(email)) {
+				setName(accountMap[email]);
+			}
+		}
+	}, [user]);
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setName(event.currentTarget.value as Name);
