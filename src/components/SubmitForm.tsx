@@ -59,22 +59,21 @@ const SubmitForm: React.FC = () => {
 		};
 
 		try {
-			// const response = await fetch('/api/sheets', {
-			// 	method: 'POST',
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-			// 	},
-			// 	body: JSON.stringify(data),
-			// });
-			// const responseData = await response.json();
-			// if (responseData.length) {
-			// 	setSubmitButtonText('입력완료!');
-			// 	// 성공시 짧고 세게 진동
-			// 	if (navigator.vibrate) {
-			// 		navigator.vibrate([100, 50, 100]);
-			// 	}
-			// }
-			console.log('data', data);
+			const response = await fetch('/api/sheets', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			});
+			const responseData = await response.json();
+			if (responseData.length) {
+				setSubmitButtonText('입력완료!');
+				// 성공시 짧고 세게 진동
+				if (navigator.vibrate) {
+					navigator.vibrate([100, 50, 100]);
+				}
+			}
 		} catch (error) {
 			console.error(error);
 			setSubmitButtonText('입력실패!');
