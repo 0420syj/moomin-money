@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { convertToDate, getAllSerialDatesByMonth } from '@/utils/date';
 import NameButtonGroup from '@/components/NameButtonGroup';
@@ -15,6 +16,7 @@ const fetchSheetData = (sheetName: string) =>
 		.catch(error => console.error(error));
 
 const MoneybookTable = () => {
+	const [displayedDataCount, setDisplayedDataCount] = useState(20);
 	const formData = useFormStore();
 
 	const sheetNameMap = {
@@ -31,17 +33,37 @@ const MoneybookTable = () => {
 	const todayMonth = new Date().getMonth() + 1;
 
 	const serialDateList = getAllSerialDatesByMonth(todayYear, todayMonth);
-	const lastMonthSerialDateList = getAllSerialDatesByMonth(
-		todayYear,
-		todayMonth - 1,
-	);
+
+	// get max value of serialDateList
+	const maxSerialDate = Math.max(...serialDateList);
 
 	let filteredData = data?.values.filter(
-		row =>
-			serialDateList.includes(Number(row[0])) ||
-			lastMonthSerialDateList.includes(Number(row[0])),
+		row => Number(row[0]) <= maxSerialDate,
 	);
 	filteredData?.sort((a, b) => Number(b[0]) - Number(a[0]));
+
+	useEffect(() => {
+		setDisplayedDataCount(20);
+	}, [formData.name]);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			if (
+				window.innerHeight + window.scrollY >=
+				document.body.offsetHeight
+			) {
+				setDisplayedDataCount(prevCount => prevCount + 20);
+			}
+		};
+
+		window.addEventListener('scroll', handleScroll);
+
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+		};
+	}, []);
+
+	let slicedData = filteredData?.slice(0, displayedDataCount);
 
 	return (
 		<>
@@ -76,7 +98,7 @@ const MoneybookTable = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{filteredData?.map((row, index) => {
+							{slicedData?.map((row, index) => {
 								const rowDate = convertToDate(Number(row[0]));
 								const isFutureDate = rowDate > new Date();
 
@@ -93,7 +115,9 @@ const MoneybookTable = () => {
 											{rowDate.toLocaleDateString()}
 										</td>
 										<td className="px-2 py-1 whitespace-nowrap">
-											{row[1].replace(/[\u0008]/g, '')}
+											{row[1]
+												.toString()
+												.replace(/[\u0008]/g, '')}
 										</td>
 										<td className="px-2 py-1 whitespace-nowrap">
 											{Number(row[2]).toLocaleString()}원
@@ -105,7 +129,7 @@ const MoneybookTable = () => {
 											{row[4]}
 										</td>
 										<td className="px-2 py-1 whitespace-nowrap">
-											{row[5].replace(/[\u0008]/g, '')}
+											{row[5]?.replace(/[\u0008]/g, '')}
 										</td>
 									</tr>
 								);

@@ -69,10 +69,7 @@ export const convertToDate = (serial: number) => {
 		seconds,
 	);
 
-	const offset = date.getTimezoneOffset() * 60000;
-	const dateOffset = new Date(date.getTime() - offset);
-
-	return dateOffset;
+	return date;
 };
 
 export const convertToSerial = (date: string): SerialDate => {
