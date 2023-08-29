@@ -13,7 +13,6 @@ import PaymentButtonGroup from '@/components/PaymentButtonGroup';
 
 const SubmitForm: React.FC = () => {
 	const {
-		setName,
 		isFormIncomplete,
 
 		getName,
@@ -24,7 +23,6 @@ const SubmitForm: React.FC = () => {
 		getCategory,
 		getPayment,
 	} = useFormStore(state => ({
-		setName: state.actions.setName,
 		isFormIncomplete: state.actions.isFormIncomplete,
 
 		getName: state.actions.getName,
