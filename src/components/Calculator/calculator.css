@@ -1,0 +1,30 @@
+.calculator-text {
+	padding: 10px;
+	border-radius: 10px;
+	border: 1px solid #f0f0f0;
+	margin-bottom: 6px;
+}
+
+.currency-calc {
+	text-align: right;
+	padding: 10px;
+	border-radius: 10px;
+}
+
+.calculator-text > .expression > .ant-typography {
+	margin-bottom: 0px !important;
+}
+
+.ant-divider {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.output > h3 {
+	color: gray;
+}
+
+.calc-button > .ant-col > .ant-btn {
+	height: 50px;
+	font-size: 18px;
+}

@@ -1,4 +1,4 @@
-import Calculator from '@/components/Calculator';
+import Calculator from '@/components/Calculator/Calculator';
 import useFormStore from '@/hooks/useFormStore';
 import { useState } from 'react';
 
@@ -11,13 +11,21 @@ const PriceInput: React.FC = () => {
 	}));
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const priceValue = Number(e.target.value.replace(/,/g, ''));
-
-		if (isNaN(priceValue)) {
-			return;
-		}
+		const priceValue = e.target.value.replace(/[^0-9.-]/g, '');
 
 		setPrice(priceValue);
+	};
+
+	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+		let priceValue = e.target.value;
+
+		if (priceValue === '-' || priceValue === '.' || priceValue === '-.') {
+			setPrice(0);
+		} else {
+			// remove , from priceValue
+			priceValue = priceValue.replace(/,/g, '');
+			setPrice(Number(priceValue));
+		}
 	};
 
 	return (
@@ -32,20 +40,22 @@ const PriceInput: React.FC = () => {
 				required
 				id="price"
 				type="text"
-				value={price <= 0 ? '' : price.toLocaleString()}
+				value={price === 0 ? '' : price.toLocaleString()}
 				onChange={handleChange}
+				onBlur={handleBlur}
 				autoComplete="off"
 				inputMode="numeric"
 				className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
 			/>
-			<button
+			{/* TODO: 계산기 구현중 */}
+			{/* <button
 				type="button"
 				onClick={() => setOpenCalculator(!openCalculator)}
 				className="px-4 py-2 mt-1 text-sm font-medium text-white bg-blue-600 rounded-lg shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
 			>
 				계산기
 			</button>
-			{openCalculator && <Calculator />}
+			{openCalculator && <Calculator />} */}
 		</>
 	);
 };
