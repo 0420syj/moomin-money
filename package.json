@@ -49,6 +49,7 @@
 		"@storybook/testing-library": "^0.2.2",
 		"@testing-library/jest-dom": "^6.1.4",
 		"@testing-library/react": "^14.0.0",
+		"@types/jest": "^29.5.5",
 		"dotenv": "^16.3.1",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-storybook": "^0.6.15",
@@ -59,7 +60,7 @@
 		"prettier": "^3.0.3",
 		"storybook": "^7.4.6"
 	},
-	"packageManager": "yarn@3.6.0",
+	"packageManager": "yarn@3.6.4",
 	"lint-staged": {
 		"**/*": "prettier --write --ignore-unknown"
 	},

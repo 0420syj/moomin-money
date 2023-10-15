@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useQuery } from 'react-query';
 import { convertToDate, getAllSerialDatesByMonth } from '@/utils/date';
 import NameButtonGroup from '@/components/NameButtonGroup';
@@ -16,7 +16,6 @@ const fetchSheetData = (sheetName: string) =>
 		.catch(error => console.error(error));
 
 const MoneybookTable = () => {
-	const [displayedDataCount, setDisplayedDataCount] = useState(20);
 	const formData = useFormStore();
 
 	const sheetNameMap = {
@@ -41,29 +40,6 @@ const MoneybookTable = () => {
 		row => Number(row[0]) <= maxSerialDate,
 	);
 	filteredData?.sort((a, b) => Number(b[0]) - Number(a[0]));
-
-	useEffect(() => {
-		setDisplayedDataCount(20);
-	}, [formData.name]);
-
-	useEffect(() => {
-		const handleScroll = () => {
-			if (
-				window.innerHeight + window.scrollY >=
-				document.body.offsetHeight
-			) {
-				setDisplayedDataCount(prevCount => prevCount + 20);
-			}
-		};
-
-		window.addEventListener('scroll', handleScroll);
-
-		return () => {
-			window.removeEventListener('scroll', handleScroll);
-		};
-	}, []);
-
-	let slicedData = filteredData?.slice(0, displayedDataCount);
 
 	return (
 		<>
@@ -98,7 +74,7 @@ const MoneybookTable = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{slicedData?.map((row, index) => {
+							{filteredData?.map((row, index) => {
 								const rowDate = convertToDate(Number(row[0]));
 								const isFutureDate = rowDate > new Date();
 
