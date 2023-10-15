@@ -1,19 +1,41 @@
 import useFormStore from '@/hooks/useFormStore';
+import { useState } from 'react';
 
 const PriceInput: React.FC = () => {
+	const [priceString, setPriceString] = useState<string>('');
 	const { price, setPrice } = useFormStore(state => ({
 		price: state.price,
 		setPrice: state.actions.setPrice,
 	}));
 
+	const formatNumberWithComma = (num: number): string => {
+		return num.toLocaleString('en-US');
+	};
+
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const priceValue = Number(e.target.value.replace(/,/g, ''));
+		setPriceString(e.target.value);
+	};
 
-		if (isNaN(priceValue)) {
-			return;
+	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+		let priceValue = e.target.value;
+
+		try {
+			const calculatedValue = eval(priceValue.replace(/,/g, ''));
+			setPriceString(formatNumberWithComma(calculatedValue));
+			setPrice(calculatedValue);
+		} catch (error) {
+			setPrice(0);
+			setPriceString('0');
 		}
+	};
 
-		setPrice(priceValue);
+	const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+		const priceValue = priceString.replace(/,/g, '');
+		if (priceValue === '0') {
+			setPriceString('');
+		} else {
+			setPriceString(priceValue);
+		}
 	};
 
 	return (
@@ -28,8 +50,10 @@ const PriceInput: React.FC = () => {
 				required
 				id="price"
 				type="text"
-				value={price <= 0 ? '' : price.toLocaleString()}
+				value={priceString}
 				onChange={handleChange}
+				onBlur={handleBlur}
+				onFocus={handleFocus}
 				autoComplete="off"
 				inputMode="numeric"
 				className="block w-full px-4 py-2 mt-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
