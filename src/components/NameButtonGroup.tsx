@@ -25,6 +25,7 @@ const NameButtonGroup: React.FC = () => {
 				setName(accountMap[email]);
 			}
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user]);
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
