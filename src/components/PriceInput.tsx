@@ -13,7 +13,7 @@ const PriceInput: React.FC = () => {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const priceValue = e.target.value.replace(/[^0-9.-]/g, '');
 
-		setPrice(priceValue);
+		setPrice(Number(priceValue));
 	};
 
 	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
