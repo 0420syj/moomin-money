@@ -13,7 +13,6 @@ export default async function Page() {
 
 	return (
 		<>
-			{/* @ts-expect-error Server Component */}
 			<MoneySpentBoard />
 			<MoneybookTable />
 		</>
