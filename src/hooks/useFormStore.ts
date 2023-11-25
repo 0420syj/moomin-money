@@ -33,7 +33,7 @@ export const paymentMap = {
   Installment: '➗ 할부',
 } as const;
 
-export type Name = (typeof nameMap)[keyof typeof nameMap];
+export type Name = (typeof nameMap)[keyof typeof nameMap] | '';
 export type SerialDate = number;
 export type Content = string;
 export type Price = number;
@@ -79,7 +79,7 @@ type FormStore = FormState & {
 };
 
 const initialState: FormState = {
-  name: 'wanny',
+  name: '',
   date: convertToSerial(getTodayDateString()),
   content: '',
   price: 0,
@@ -118,5 +118,10 @@ const useFormStore = create(
     },
   }))
 );
+
+export const createFormStore = (initialName: Name) => {
+  useFormStore.setState({ name: initialName });
+  return useFormStore;
+};
 
 export default useFormStore;
