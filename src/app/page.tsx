@@ -1,10 +1,10 @@
+import { Suspense } from 'react';
+import MoneySpentBoardFallback from '@/components/MoneySpentBoardFallback';
+import MoneySpentBoard from '@/components/MoneySpentBoard';
 import SubmitForm from '@/components/SubmitForm';
+import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from './api/auth/[...nextauth]/route';
-import { redirect } from 'next/navigation';
-import MoneySpentBoard from '@/components/MoneySpentBoard';
-import { Suspense } from 'react';
-import Loading from './loading';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -15,7 +15,7 @@ export default async function Home() {
 
   return (
     <>
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<MoneySpentBoardFallback />}>
         <MoneySpentBoard />
       </Suspense>
       <SubmitForm />

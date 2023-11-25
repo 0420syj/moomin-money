@@ -1,10 +1,10 @@
-import '@/app/globals.css';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
-import NextAuthProvider from '@/components/NextAuthProvider';
-import ReactQueryProvider from '@/components/ReactQueryProvider';
 import { Analytics } from '@vercel/analytics/react';
 import { Metadata } from 'next';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import NextAuthProvider from '@/components/NextAuthProvider';
+import ReactQueryProvider from '@/components/ReactQueryProvider';
+import '@/app/globals.css';
 
 const metadata: Metadata = {
   title: '빵빚무 가계부',

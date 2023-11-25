@@ -13,12 +13,7 @@ export const authOptions = {
   callbacks: {
     async signIn({ user }: { user: any }) {
       const isAllowedToSignIn = allowedAccounts.includes(user.email as string);
-
-      if (isAllowedToSignIn) {
-        return true;
-      } else {
-        return false;
-      }
+      return isAllowedToSignIn;
     },
   },
 };

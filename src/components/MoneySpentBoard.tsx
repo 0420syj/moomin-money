@@ -17,18 +17,28 @@ export default async function MoneySpentBoard() {
   ]);
 
   return (
-    <div className="flex flex-row justify-around mb-4">
-      <div className="flex flex-col items-center">
-        <div>🐶 빵떡</div>
-        <div>₩{wannyMoneySpent.toLocaleString()}</div>
+    <div className="flex flex-col w-full mb-4">
+      <div className="flex flex-row justify-around">
+        <div className="flex flex-col items-center">
+          <div>🐶 빵떡</div>
+        </div>
+        <div className="flex flex-col items-center">
+          <div>💵 합계</div>
+        </div>
+        <div className="flex flex-col items-center">
+          <div>🐻‍❄️ 무민</div>
+        </div>
       </div>
-      <div className="flex flex-col items-center">
-        <div>💵 합계</div>
-        <div>₩{totalMoneySpent.toLocaleString()}</div>
-      </div>
-      <div className="flex flex-col items-center">
-        <div>🐻‍❄️ 무민</div>
-        <div>₩{moominMoneySpent.toLocaleString()}</div>
+      <div className="flex flex-row justify-around">
+        <div className="flex flex-col items-center">
+          <div>₩{wannyMoneySpent.toLocaleString()}</div>
+        </div>
+        <div className="flex flex-col items-center">
+          <div>₩{totalMoneySpent.toLocaleString()}</div>
+        </div>
+        <div className="flex flex-col items-center">
+          <div>₩{moominMoneySpent.toLocaleString()}</div>
+        </div>
       </div>
     </div>
   );
