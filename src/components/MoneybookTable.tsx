@@ -18,13 +18,17 @@ const fetchSheetData = (sheetName: string) =>
 const MoneybookTable = () => {
   const formData = useFormStore();
 
-  const sheetNameMap = {
+  const sheetNameMap: { [key: string]: string } = {
     wanny: process.env.NEXT_PUBLIC_GOOGLE_WANNY_SHEET_NAME as string,
     moomin: process.env.NEXT_PUBLIC_GOOGLE_MOOMIN_SHEET_NAME as string,
   };
 
-  const { data, isLoading, isError } = useQuery<DataType>(['sheetData', sheetNameMap[formData.name]], () =>
-    fetchSheetData(sheetNameMap[formData.name])
+  const { data, isLoading, isError } = useQuery<DataType>(
+    ['sheetData', sheetNameMap[formData.name]],
+    () => fetchSheetData(sheetNameMap[formData.name]),
+    {
+      enabled: !!sheetNameMap[formData.name],
+    }
   );
 
   const todayYear = new Date().getFullYear();
