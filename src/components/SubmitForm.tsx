@@ -10,6 +10,7 @@ import PriceInput from '@/components/PriceInput';
 import NoteInput from '@/components/NoteInput';
 import CategoryButtonGroup from '@/components/CategoryButtonGroup';
 import PaymentButtonGroup from '@/components/PaymentButtonGroup';
+import { DatePickerDemo } from './DatePicker';
 
 const SubmitForm: React.FC = () => {
   const {
@@ -97,6 +98,7 @@ const SubmitForm: React.FC = () => {
   return (
     <>
       <form className="space-y-4" onSubmit={onSubmit}>
+        <DatePickerDemo />
         <NameButtonGroup />
         <DateInput />
         <ContentInput />
