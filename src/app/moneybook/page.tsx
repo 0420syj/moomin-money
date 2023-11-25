@@ -5,16 +5,16 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 
 export default async function Page() {
-	const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
 
-	if (!session) {
-		redirect('/api/auth/signin');
-	}
+  if (!session) {
+    redirect('/api/auth/signin');
+  }
 
-	return (
-		<>
-			<MoneySpentBoard />
-			<MoneybookTable />
-		</>
-	);
+  return (
+    <>
+      <MoneySpentBoard />
+      <MoneybookTable />
+    </>
+  );
 }
