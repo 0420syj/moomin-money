@@ -1,4 +1,5 @@
 import useFormStore, { Category, categoryMap } from '@/hooks/useFormStore';
+import { Button } from '@/components/ui/Button';
 
 const CategoryButtonGroup: React.FC = () => {
   const categoryList: Category[] = Object.values(categoryMap);
@@ -21,7 +22,7 @@ const CategoryButtonGroup: React.FC = () => {
       <div className="grid grid-cols-4 gap-4">
         {categoryList.map(categoryElement => (
           <div key={categoryElement}>
-            <button
+            <Button
               type="button"
               value={categoryElement}
               className={`w-full py-2 rounded-lg shadow  ${
@@ -32,7 +33,7 @@ const CategoryButtonGroup: React.FC = () => {
               onClick={handleClick}
             >
               {category !== categoryElement ? categoryElement.substring(0, 2) : categoryElement.substring(2)}
-            </button>
+            </Button>
           </div>
         ))}
       </div>
