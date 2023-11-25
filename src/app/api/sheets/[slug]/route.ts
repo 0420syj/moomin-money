@@ -6,30 +6,27 @@ import { redirect } from 'next/navigation';
 
 const googleSheetsService = new GoogleSheetsService();
 
-export async function GET(
-	request: Request,
-	{ params }: { params: { slug: string } },
-) {
-	// TODO: API Auth 해결
-	// const session = await getServerSession(authOptions);
+export async function GET(request: Request, { params }: { params: { slug: string } }) {
+  // TODO: API Auth 해결
+  // const session = await getServerSession(authOptions);
 
-	// if (!session) {
-	// 	redirect('/api/auth/signin');
-	// }
+  // if (!session) {
+  // 	redirect('/api/auth/signin');
+  // }
 
-	try {
-		const slug = params.slug;
+  try {
+    const slug = params.slug;
 
-		const { searchParams } = new URL(request.url);
-		const range = searchParams.get('range');
+    const { searchParams } = new URL(request.url);
+    const range = searchParams.get('range');
 
-		const values = await googleSheetsService.getSheetValues(
-			process.env.GOOGLE_SPREADSHEET_ID as string,
-			(slug + '!' + (range ?? process.env.GOOGLE_SHEET_RANGE)) as string,
-		);
+    const values = await googleSheetsService.getSheetValues(
+      process.env.GOOGLE_SPREADSHEET_ID as string,
+      (slug + '!' + (range ?? process.env.GOOGLE_SHEET_RANGE)) as string
+    );
 
-		return NextResponse.json({ values });
-	} catch (error) {
-		console.error(error);
-	}
+    return NextResponse.json({ values });
+  } catch (error) {
+    console.error(error);
+  }
 }
